@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiCore_facebook</name>
+    </assembly>
+    <members>
+        <member name="F:ApiCore_facebook.Controllers.MessageController._cache">
+            <summary>
+            Bộ nhớ server
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.MessageController.from_body_message2.id_page">
+            <summary>
+            Bắt buộc
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.MessageController.from_body_message2.key">
+            <summary>
+            Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.MessageController.from_body_message2.take">
+            <summary>
+            Số item tải lên trong một trang
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.MessageController.from_body_message2.page_index">
+            <summary>
+            Trang 1 2 3 ...
+            </summary>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.MessageController.Lis_message_null(ApiCore_facebook.Controllers.MessageController.from_body_message2)">
+             <summary>
+             (Lấy danh sách tin nhắn) 3
+             </summary>
+             <remarks>
+             Ví dụ:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+            
+             </remarks>
+             /// <returns>Oke</returns>
+             <response code="201">Trả về mục cừa khởi tạo</response>
+             <response code="400">Nếu trã về rỗng
+             <code>
+              POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+             </code>
+             </response>    
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.id_page">
+            <summary>
+            Bắt buộc
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.key">
+            <summary>
+            Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.take">
+            <summary>
+            Số item tải lên trong một trang
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.page_index">
+            <summary>
+            Trang 1 2 3 ...
+            </summary>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.ValuesController.Lis_message_null(ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2)">
+             <summary>
+             (Lấy danh sách tin nhắn) v1
+             </summary>
+             <remarks>
+             Ví dụ:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+            
+             </remarks>
+             /// <returns>Oke</returns>
+             <response code="201">Trả về mục cừa khởi tạo</response>
+             <response code="400">Nếu trã về rỗng
+             <code>
+              POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+             </code>
+             </response>    
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.id_page">
+            <summary>
+            Bắt buộc
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.key">
+            <summary>
+            Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.take">
+            <summary>
+            Số item tải lên trong một trang
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.page_index">
+            <summary>
+            Trang 1 2 3 ...
+            </summary>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v2.ValuesController.Lis_message_null(ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2)">
+             <summary>
+             (Lấy danh sách tin nhắn) v2
+             </summary>
+             <remarks>
+             Ví dụ:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+            
+             </remarks>
+             /// <returns>Oke</returns>
+             <response code="201">Trả về mục cừa khởi tạo</response>
+             <response code="400">Nếu trã về rỗng
+             <code>
+              POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+             </code>
+             </response>    
+        </member>
+        <member name="T:ApiCore_facebook.Library.BrotliCompressionProvider">
+            <summary>
+            Thư viện cung cấp nén
+            </summary>
+        </member>
+        <member name="M:ApiCore_facebook.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            Build ứng dụng trở thành 1 web service
+            Bắt đầu chạy file stasup
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

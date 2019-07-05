@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using ApiCore_facebook.Library;
+using ApiCore_facebook.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
+namespace ApiCore_facebook
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //services.AddDbContext<db_facebook_vmContext>(opt =>
+            //  opt.UseSqlServer(Configuration.GetConnectionString("MyDb")),ServiceLifetime.Scoped);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:3002").AllowAnyHeader().AllowAnyMethod());
+              
+            });
+            //Caching từ bô nhớ server
+            services.AddMemoryCache();
+            
+            //Nén ở cáp độ nào
+            services.Configure<GzipCompressionProviderOptions>(options => {
+                options.Level = CompressionLevel.Fastest;
+                //Fastest:Thao tác nén phải hoàn thành càng nhanh càng tốt, ngay cả khi tệp kết quả không được nén tối ưu.
+                //Optimal:  Hoạt động nén phải được nén tối ưu, ngay cả khi hoạt động mất nhiều thời gian hơn để hoàn thành.
+            });
+            services.AddResponseCompression(options => {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.EnableForHttps = true;
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {
+                    "application/xhtml+xml",
+                    "application/atom+xml",
+                    "image/svg+xml",
+                });
+            });
+            
+
+            
+            //services.AddResponseCompression();
+            //services.AddResponseCompression(); //Nén dữ liệu
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("1.0", new Info
+                { Title= "Core api", Description= "Bằng nguyễn" });
+                c.SwaggerDoc("2.0", new Info
+                { Title = "Core api", Description = "Bằng nguyễn" });
+
+
+
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            //services.AddApiVersioning(o => o.ApiVersionReader = new HeaderApiVersionReader("api-version"));
+            // Configure versions 
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
+
+            // Configure swagger
+            services.AddSwaggerGen(options =>
+            {
+                // Specify two versions 
+                options.SwaggerDoc("v1",
+                    new Info()
+                    {
+                        Version = "v1",
+                        Title = "v1 API",
+                        Description = "v1 API Description",
+                        TermsOfService = "Terms of usage v1"
+                    });
+
+                options.SwaggerDoc("v2",
+                    new Info()
+                    {
+                        Version = "v2",
+                        Title = "v2 API",
+                        Description = "v2 API Description",
+                        TermsOfService = "Terms of usage v2"
+                    });
+                options.SwaggerDoc("v3",
+                   new Info()
+                   {
+                       Version = "v3",
+                       Title = "v3 API",
+                       Description = "v3 API Description",
+                       TermsOfService = "Terms of usage v3"
+                   });
+                // This call remove version from parameter, without it we will have version as parameter 
+                // for all endpoints in swagger UI
+                options.OperationFilter<RemoveVersionFromParameter>();
+
+                // This make replacement of v{version:apiVersion} to real version of corresponding swagger doc.
+                options.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+
+                // This on used to exclude endpoint mapped to not specified in swagger version.
+                // In this particular example we exclude 'GET /api/v2/Values/otherget/three' endpoint,
+                // because it was mapped to v3 with attribute: MapToApiVersion("3")
+                options.DocInclusionPredicate((version, desc) =>
+                {
+                    var versions = desc.ControllerAttributes()
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    var maps = desc.ActionAttributes()
+                        .OfType<MapToApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions)
+                        .ToArray();
+
+                    return versions.Any(v => $"v{v.ToString()}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v.ToString()}" == version));
+                });
+
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            //nếu môi trường là develop thì view ra chức năng description báo lỗi.
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+            //Nén dữ liệu
+            app.UseResponseCompression();
+            //app.UseCors(builder =>builder.WithOrigins("http://localhost:3002"));
+            app.UseHttpsRedirection();
+
+
+
+            app.UseStaticFiles();
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/v3/swagger.json", $"v3");
+                c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
+                c.InjectStylesheet("/swagger/ui/customApi.css");
+            });
+
+            app.UseMvc();
+        }
+    }
+}
