@@ -17,6 +17,7 @@ namespace ApiCore_facebook.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [EnableCors("AllowOrigin")]
+   
     public class MessageController : Controller
     {
         /// <summary>
