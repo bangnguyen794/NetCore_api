@@ -12,9 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiCore_facebook.Controllers
 {
     //Không cần kiểm tra version
-    [ApiVersionNeutral]
+    //[ApiVersionNeutral]
     //[Route("api/[controller]")]
     //[Authorize]
+   
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [EnableCors("AllowOrigin")]
     public class UsersController : Controller
@@ -27,16 +30,16 @@ namespace ApiCore_facebook.Controllers
             _userService = userService;
         }
         //[AllowAnonymous]
-        [HttpPost]
-        [Route("api/login/authenticate")]
+        [Route("authenticate"), HttpPost]
         public IActionResult Authenticate([FromBody]User userParam)
         {
-            var user = _userService.Authenticate(userParam.Username, userParam.Password);
+            return Ok("oke");
+            //var user = _userService.Authenticate(userParam.Username, userParam.Password);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            //if (user == null)
+            //    return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(user);
+            //return Ok(user);
         }
         
        
