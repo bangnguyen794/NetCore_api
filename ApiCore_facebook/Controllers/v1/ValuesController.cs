@@ -24,7 +24,6 @@ namespace ApiCore_facebook.Controllers.v1
         {
             _cache = memoryCache;
         }
-       
         public class from_body_message2
         {
             /// <summary>
@@ -78,6 +77,7 @@ namespace ApiCore_facebook.Controllers.v1
         //[Caching_api(Time = 15)]
         //[GzipCompression]
         [ResponseCache(Duration = 100)]
+
         //Chỉ trả về  2 responses này
         //[ProducesResponseType(201)]
         //[ProducesResponseType(400)]

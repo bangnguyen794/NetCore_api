@@ -108,13 +108,7 @@ namespace ApiCore_facebook.Controllers.v2
                 return BadRequest(Ex.ToString());
             }
         }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        
 
         // POST api/<controller>
         [HttpPost]
