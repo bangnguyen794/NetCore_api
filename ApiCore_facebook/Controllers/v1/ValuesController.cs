@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiCore_facebook.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ApiCore_facebook.Controllers.v1
 {
+
+    [Authorize] // check token
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
@@ -81,6 +84,7 @@ namespace ApiCore_facebook.Controllers.v1
         //Chỉ trả về  2 responses này
         //[ProducesResponseType(201)]
         //[ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<ActionResult> Lis_message_null([FromQuery] from_body_message2 body)
         {
             try
