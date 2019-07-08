@@ -68,9 +68,7 @@ namespace ApiCore_facebook
             
 
             
-            //services.AddResponseCompression();
-            //services.AddResponseCompression(); //Nén dữ liệu
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("1.0", new Info
@@ -147,39 +145,35 @@ namespace ApiCore_facebook
 
                     return versions.Any(v => $"v{v.ToString()}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v.ToString()}" == version));
                 });
-
-
-
-                // configure strongly typed settings objects
-                var appSettingsSection = Configuration.GetSection("AppSettings");
-                services.Configure<AppSettings>(appSettingsSection);
-
-                // configure jwt authentication
-                var appSettings = appSettingsSection.Get<AppSettings>();
-                var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-                services.AddAuthentication(x =>
-                {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
-
-                // configure DI for application services
-                services.AddScoped<IUserService, UserService>();
-
-
             });
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

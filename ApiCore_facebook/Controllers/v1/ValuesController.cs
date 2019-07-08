@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCore_facebook.Library;
 using ApiCore_facebook.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -81,10 +82,10 @@ namespace ApiCore_facebook.Controllers.v1
         //[GzipCompression]
         [ResponseCache(Duration = 100)]
 
+        //[Authorize(Roles = Role.User)]
         //Chỉ trả về  2 responses này
         //[ProducesResponseType(201)]
         //[ProducesResponseType(400)]
-        [AllowAnonymous]
         public async Task<ActionResult> Lis_message_null([FromQuery] from_body_message2 body)
         {
             try

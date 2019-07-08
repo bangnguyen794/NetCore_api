@@ -14,32 +14,31 @@ namespace ApiCore_facebook.Controllers
     //Không cần kiểm tra version
     //[ApiVersionNeutral]
     //[Route("api/[controller]")]
-    //[Authorize]
+
+
    
-    [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersionNeutral]
+    [Route("api/[controller]")]
     [Produces("application/json")]
+    [ApiController]
     [EnableCors("AllowOrigin")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
-        // GET: api/<controller>
         private IUserService _userService;
 
         public UsersController(IUserService userService)
         {
             _userService = userService;
         }
-        //[AllowAnonymous]
+        
         [Route("authenticate"), HttpPost]
         public IActionResult Authenticate([FromBody]User userParam)
         {
-            return Ok("oke");
-            //var user = _userService.Authenticate(userParam.Username, userParam.Password);
-
-            //if (user == null)
-            //    return BadRequest(new { message = "Username or password is incorrect" });
-
-            //return Ok(user);
+            //return Ok(userParam.Username + "- "+ userParam.Password);
+            var user = _userService.Authenticate(userParam.Username, userParam.Password);
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+            return Ok(user);
         }
         
        
