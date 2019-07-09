@@ -120,7 +120,8 @@ namespace ApiCore_facebook
                        Version = "v3",
                        Title = "v3 API",
                        Description = "v3 API Description",
-                       TermsOfService = "Terms of usage v3"
+                       TermsOfService = "Terms of usage v3",
+                       
                    });
                 // This call remove version from parameter, without it we will have version as parameter 
                 // for all endpoints in swagger UI
@@ -134,14 +135,29 @@ namespace ApiCore_facebook
                 // because it was mapped to v3 with attribute: MapToApiVersion("3")
                 options.DocInclusionPredicate((version, desc) =>
                 {
-                    var versions = desc.ControllerAttributes()
+                    //var versions = desc.ControllerAttributes()
+                    //    .OfType<ApiVersionAttribute>()
+                    //    .SelectMany(attr => attr.Versions);
+
+
+                    if (!desc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
                         .OfType<ApiVersionAttribute>()
                         .SelectMany(attr => attr.Versions);
 
-                    var maps = desc.ActionAttributes()
+
+                    var maps = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
                         .OfType<MapToApiVersionAttribute>()
-                        .SelectMany(attr => attr.Versions)
-                        .ToArray();
+                        .SelectMany(attr => attr.Versions).ToArray();
+
+
+                    //var maps = desc.ActionAttributes()
+                    //    .OfType<MapToApiVersionAttribute>()
+                    //    .SelectMany(attr => attr.Versions)
+                    //    .ToArray();
 
                     return versions.Any(v => $"v{v.ToString()}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v.ToString()}" == version));
                 });
@@ -173,6 +189,7 @@ namespace ApiCore_facebook
             });
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -192,9 +209,6 @@ namespace ApiCore_facebook
             app.UseResponseCompression();
             //app.UseCors(builder =>builder.WithOrigins("http://localhost:3002"));
             app.UseHttpsRedirection();
-
-
-
             app.UseStaticFiles();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -204,7 +218,8 @@ namespace ApiCore_facebook
                 c.SwaggerEndpoint($"/swagger/v3/swagger.json", $"v3");
                 c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
-                c.InjectStylesheet("/swagger/ui/customApi.css");
+                c.InjectStylesheet("/swagger/ui/css_custom.css");
+                c.InjectJavascript("/swagger/ui/js_custom.js");
             });
             //Xác thự token trên app
             app.UseAuthentication();

@@ -10,15 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="swagger\ui\customApi.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BrotliSharpLib" Version="0.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />

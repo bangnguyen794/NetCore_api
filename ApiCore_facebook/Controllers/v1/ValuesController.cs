@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiCore_facebook.Library;
@@ -33,18 +34,22 @@ namespace ApiCore_facebook.Controllers.v1
             /// <summary>
             /// Bắt buộc
             /// </summary>
+            [Required]
             public string id_page { get; set; }
             /// <summary>
             /// Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
             /// </summary>
+            
             public string key { get; set; }
             /// <summary>
             /// Số item tải lên trong một trang
             /// </summary>
+            [Required]
             public int take { get; set; }
             /// <summary>
             /// Trang 1 2 3 ...
             /// </summary>
+            [Required] 
             public int page_index { get; set; }
         }
 
@@ -81,7 +86,6 @@ namespace ApiCore_facebook.Controllers.v1
         //[Caching_api(Time = 15)]
         //[GzipCompression]
         [ResponseCache(Duration = 100)]
-
         //[Authorize(Roles = Role.User)]
         //Chỉ trả về  2 responses này
         //[ProducesResponseType(201)]

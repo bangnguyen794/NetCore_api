@@ -14,8 +14,8 @@ namespace ApiCore_facebook.Models
             : base(options)
         {
         }
+       
 
-        public virtual DbSet<ActivityLog> ActivityLog { get; set; }
         public virtual DbSet<ExcludedQueries> ExcludedQueries { get; set; }
         public virtual DbSet<FbAccountQuyen> FbAccountQuyen { get; set; }
         public virtual DbSet<FbBaoxau> FbBaoxau { get; set; }
@@ -61,25 +61,7 @@ namespace ApiCore_facebook.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ActivityLog>(entity =>
-            {
-                entity.HasKey(e => e.LogId);
-
-                entity.ToTable("activity_log", "oqs");
-
-                entity.Property(e => e.LogId).HasColumnName("log_id");
-
-                entity.Property(e => e.LogMessage)
-                    .HasColumnName("log_message")
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.LogRunId).HasColumnName("log_run_id");
-
-                entity.Property(e => e.LogTimestamp)
-                    .HasColumnName("log_timestamp")
-                    .HasColumnType("datetime");
-            });
+          
 
             modelBuilder.Entity<ExcludedQueries>(entity =>
             {
