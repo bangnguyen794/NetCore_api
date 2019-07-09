@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ApiCore_facebook.ClassController.log;
 using ApiCore_facebook.Library;
 using ApiCore_facebook.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,9 +29,10 @@ namespace ApiCore_facebook
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger _logger;
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
-            Configuration = configuration;
+            Configuration = configuration; _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -40,16 +42,21 @@ namespace ApiCore_facebook
         {
             //services.AddDbContext<db_facebook_vmContext>(opt =>
             //  opt.UseSqlServer(Configuration.GetConnectionString("MyDb")),ServiceLifetime.Scoped);
+            
 
+            #region Add Cros Website
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:3002").AllowAnyHeader().AllowAnyMethod());
               
             });
+            #endregion
+
             //Caching từ bô nhớ server
             services.AddMemoryCache();
-            
+
+            #region Nén dữ liệu truyền tải
             //Nén ở cáp độ nào
             services.Configure<GzipCompressionProviderOptions>(options => {
                 options.Level = CompressionLevel.Fastest;
@@ -65,10 +72,9 @@ namespace ApiCore_facebook
                     "image/svg+xml",
                 });
             });
-            
+            #endregion
 
-            
-           
+            #region Cấu hình teamplate Swagger api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("1.0", new Info
@@ -85,6 +91,7 @@ namespace ApiCore_facebook
                 c.IncludeXmlComments(xmlPath);
             });
 
+           
             //services.AddApiVersioning(o => o.ApiVersionReader = new HeaderApiVersionReader("api-version"));
             // Configure versions 
             services.AddApiVersioning(o =>
@@ -101,9 +108,10 @@ namespace ApiCore_facebook
                     new Info()
                     {
                         Version = "v1",
-                        Title = "v1 API",
-                        Description = "v1 API Description",
-                        TermsOfService = "Terms of usage v1"
+                        Title = "Version 1",
+                        Description = "v1 API Description" +
+                        "</br> ka k a ",
+                        //TermsOfService = "Terms of usage v1"
                     });
 
                 options.SwaggerDoc("v2",
@@ -162,7 +170,9 @@ namespace ApiCore_facebook
                     return versions.Any(v => $"v{v.ToString()}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v.ToString()}" == version));
                 });
             });
-
+            #endregion
+            
+            #region Xác thực token
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -189,7 +199,13 @@ namespace ApiCore_facebook
             });
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
-            
+            #endregion
+
+            #region Add loging server
+                services.AddSingleton<ILogRepository, LogRepository>();
+                _logger.LogInformation("RUN APP API");
+            #endregion
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -199,6 +215,7 @@ namespace ApiCore_facebook
             //nếu môi trường là develop thì view ra chức năng description báo lỗi.
             if (env.IsDevelopment())
             {
+                _logger.LogInformation("Moi truong code");
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -209,20 +226,22 @@ namespace ApiCore_facebook
             app.UseResponseCompression();
             //app.UseCors(builder =>builder.WithOrigins("http://localhost:3002"));
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
             
+            //Add thư viện Swagger
+            app.UseStaticFiles();
+         
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"Version 1");
                 c.SwaggerEndpoint($"/swagger/v3/swagger.json", $"v3");
                 c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
                 c.InjectStylesheet("/swagger/ui/css_custom.css");
                 c.InjectJavascript("/swagger/ui/js_custom.js");
             });
             //Xác thự token trên app
             app.UseAuthentication();
+
             app.UseMvc();
         }
     }
