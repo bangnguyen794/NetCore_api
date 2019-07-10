@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,62 +23,47 @@ namespace ApiCore_facebook.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [EnableCors("AllowOrigin")]
-
-    public class Fb_message : Controller
+    public class FbMessage : Controller
     {
+        db_facebook_vmContext ctx = new db_facebook_vmContext();
+        private IConfiguration configuration;
+        private bool ConsoleError = false;
+        
         #region Setting log 
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
-        public Fb_message(ILogRepository logRepository, ILoggerFactory logger)
+        public FbMessage(ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig)
         {
             _logRepository = logRepository;
-            _logger = logger.CreateLogger("Fb_message.Controllers.Fb_message"); ;
+            _logger = logger.CreateLogger("Fb_message.Controllers.Fb_message");
+            configuration = iconfig; //Lấy ra value file appseting.json
+            ConsoleError = bool.Parse(configuration.GetSection("ConsoleError").Value);
         }
         #endregion
-        db_facebook_vmContext ctx = new db_facebook_vmContext();
-
-        
-
         /// <summary>
-        /// ( Thêm - cập nhập ti nhắn )
+        /// ( Thêm - cập nhập tin nhắn publish online )
         /// </summary>
         /// <param name="body">Giá trị truyền vào</param>
         /// <returns></returns>
-        [Route("Save_change_message"), HttpPost]
+        [Route("SaveChangeMessage"), HttpPost]
         public async Task<ActionResult> Save_change_message([FromBody]  CL_FbMessages.From_add_message body)
         {
-           
             try
             {
-                await ctx.Database.ExecuteSqlCommandAsync($"exec Pro_UpdateInsertMessages @id_message={body.id_message}, @id_page={ body.id_page}, @id_user={ body.id_user}, @message={ body.message}, @name_user={ body.name_user}, @views={ body.views}, @views_update={ body.views_update}, @update_time={ body.update_time}, @type={ body.type}, @phone={ body.phone}");
+                await ctx.Database.ExecuteSqlCommandAsync($"exec dbo.Pro_UpdateInsertMessages @id_message={body.id_message}, @id_page={ body.id_page}, @id_user={ body.id_user}, @message={ body.message}, @name_user={ body.name_user}, @views={ body.views}, @views_update={ body.views_update}, @update_time={ body.update_time}, @type={ body.type}, @phone={body.phone}");
 
-                _logger.LogInformation(LoggingEvents.InsertItem, "Add mesage :{ body.id_user}", body);
+                _logger.LogInformation(LoggingEvents.InsertItem, "Add mesage :{ body}", body);
                 //var query= await ctx.FbMessages.FromSql($"exec seach_name_fb @name =N{body.name_user}").ToListAsync();
                 //_logger.LogWarning(LoggingEvents.GetItemNotFound, "GetById({ID}) NOT FOUND", id);
                 //return NotFound();
-                //_logger.LogInformation(LoggingEvents.ListItems, "Listing all items"); Lấy ra list item
-                //_logger.LogInformation(LoggingEvents.InsertItem, "Item {ID} Created", item.Key); //Thêm 1 item
-                //_logger.LogInformation(LoggingEvents.UpdateItem, "Item {ID} Updated", item.Key); cập nhập 1 item
-                //_logger.LogInformation(LoggingEvents.DeleteItem, "Item {ID} Deleted", id);Xóa 1 item
-                //_logger.LogInformation(LoggingEvents.GenerateItems, "Generating sample items."); tạo một danh sách item
-                //_logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", id); lấy ra 1 item
-                //_logger.LogWarning(LoggingEvents.GetItemNotFound, ex, "GetById({ID}) NOT FOUND", id); trả về lỗi ngoại lệ
-
-                //Tạo list bên trong nếu đã tồn tại
-                //using (_logger.BeginScope("Message {HoleValue}", DateTime.Now))
-                //{
-                //    _logger.LogInformation(LoggingEvents.ListItems, "Listing all items");
-                //    EnsureItems();
-                //}
-                //_logger.BeginScope("Message attached to logs created in the using block") Thông báo đính kèm với nhật ký được tạo trong khối sử dụng
-
                 return Ok("success");
             }
             catch (Exception ex)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, body.ToString());
-                return NotFound(ex);
-              
+                if(ConsoleError) return NotFound(ex);
+                return NotFound("Lỗi ngoại lệ");
+
             }
         }
 
@@ -87,7 +73,6 @@ namespace ApiCore_facebook.Controllers.v1
         {
             return "value";
         }
-
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)

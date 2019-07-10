@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,16 +44,14 @@ namespace ApiCore_facebook
             //services.AddDbContext<db_facebook_vmContext>(opt =>
             //  opt.UseSqlServer(Configuration.GetConnectionString("MyDb")),ServiceLifetime.Scoped);
             
-
             #region Add Cros Website
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder => builder.WithOrigins("http://localhost:3002").AllowAnyHeader().AllowAnyMethod());
+                    builder => builder.WithOrigins("http://localhost:3002", "https://vietmyapp.com", "https://fb.vietmyapp.com").AllowAnyHeader().AllowAnyMethod());
               
             });
             #endregion
-
             //Caching từ bô nhớ server
             services.AddMemoryCache();
 
@@ -225,11 +224,9 @@ namespace ApiCore_facebook
             //Nén dữ liệu
             app.UseResponseCompression();
             //app.UseCors(builder =>builder.WithOrigins("http://localhost:3002"));
-            app.UseHttpsRedirection();
-            
+           
             //Add thư viện Swagger
             app.UseStaticFiles();
-         
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -241,7 +238,11 @@ namespace ApiCore_facebook
             });
             //Xác thự token trên app
             app.UseAuthentication();
-
+            //Chạy https
+            app.UseHttpsRedirection();
+            var option = new RewriteOptions().AddRedirectToHttpsPermanent();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
             app.UseMvc();
         }
     }

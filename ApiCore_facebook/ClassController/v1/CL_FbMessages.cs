@@ -26,6 +26,10 @@ namespace ApiCore_facebook.ClassController.v1
             [Required]
             public DateTime update_time { get; set; }
             public bool views { get; set; }
+            /// <summary>
+            /// Default = false
+            /// </summary>
+            [Required]
             public bool views_update { get; set; }
             /// <summary>
             ///  ms (Tin nhắn) - cmt (Bình luận)
@@ -33,18 +37,19 @@ namespace ApiCore_facebook.ClassController.v1
             [Required]
             public string type { get; set; }
             [MaxLength(13)]
+            [MinLength(10)]
             public string phone { get; set; }
-            /// <summary>
-            /// Trang số 1,2, 3...
-            /// </summary>
-            [Required]
-            public int page_index { get; set; }
+            ///// <summary>
+            ///// Trang số 1,2, 3...
+            ///// </summary>
+            //[Required]
+            //public int page_index { get; set; }
            
-            /// <summary>
-            /// Số item lấy ra
-            /// </summary>
-            [Required]
-            public int take { get; set; }
+            ///// <summary>
+            ///// Số item lấy ra
+            ///// </summary>
+            //[Required]
+            //public int take { get; set; }
         }
     }
 }

@@ -7,6 +7,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\Duan_danglam\ApiCore_facebook\ApiCore_facebook\ApiCore_facebook.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
+    <OutputPath />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Duan_danglam\ApiCore_facebook\ApiCore_facebook\ApiCore_facebook.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

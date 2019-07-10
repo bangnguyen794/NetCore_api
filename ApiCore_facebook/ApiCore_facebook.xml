@@ -9,19 +9,14 @@
             Body lưu tin nhắn
             </summary>
         </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.views_update">
+            <summary>
+            Default = false
+            </summary>
+        </member>
         <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.type">
             <summary>
              ms (Tin nhắn) - cmt (Bình luận)
-            </summary>
-        </member>
-        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.page_index">
-            <summary>
-            Trang số 1,2, 3...
-            </summary>
-        </member>
-        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.take">
-            <summary>
-            Số item lấy ra
             </summary>
         </member>
         <member name="F:ApiCore_facebook.Controllers.MessageController._cache">
@@ -77,9 +72,9 @@
              </code>
              </response>    
         </member>
-        <member name="M:ApiCore_facebook.Controllers.v1.Fb_message.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
+        <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
             <summary>
-            ( Thêm - cập nhập ti nhắn )
+            ( Thêm - cập nhập tin nhắn publish online )
             </summary>
             <param name="body">Giá trị truyền vào</param>
             <returns></returns>
