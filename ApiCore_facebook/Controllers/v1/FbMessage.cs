@@ -45,7 +45,16 @@ namespace ApiCore_facebook.Controllers.v1
         /// </summary>
         /// <param name="body">Giá trị truyền vào</param>
         /// <returns></returns>
+        /// 
+        /// <remarks>Mô tả ghi chú!</remarks>
+        /// <response code="400">Product has missing/invalid values</response>
+        /// <response code="500">Oops! Can't create your product right now</response>
+       
         [Route("SaveChangeMessage"), HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        [ApiExplorerSettings(GroupName = "post")]
         public async Task<ActionResult> Save_change_message([FromBody]  CL_FbMessages.From_add_message body)
         {
             try
@@ -73,17 +82,19 @@ namespace ApiCore_facebook.Controllers.v1
         {
             return "value";
         }
+        [ApiExplorerSettings(GroupName = "post")]
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)
         {
         }
+        [ApiExplorerSettings(IgnoreApi = true)]
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

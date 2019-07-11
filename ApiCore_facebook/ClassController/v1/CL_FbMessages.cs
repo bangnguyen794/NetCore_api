@@ -29,6 +29,7 @@ namespace ApiCore_facebook.ClassController.v1
             /// <summary>
             /// Default = false
             /// </summary>
+            /// <example>10</example>
             [Required]
             public bool views_update { get; set; }
             /// <summary>

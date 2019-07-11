@@ -13,6 +13,7 @@
             <summary>
             Default = false
             </summary>
+            <example>10</example>
         </member>
         <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.type">
             <summary>
@@ -78,6 +79,10 @@
             </summary>
             <param name="body">Giá trị truyền vào</param>
             <returns></returns>
+            
+            <remarks>Mô tả ghi chú!</remarks>
+            <response code="400">Product has missing/invalid values</response>
+            <response code="500">Oops! Can't create your product right now</response>
         </member>
         <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.id_page">
             <summary>

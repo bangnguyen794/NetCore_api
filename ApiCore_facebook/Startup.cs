@@ -23,8 +23,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace ApiCore_facebook
 {
@@ -102,6 +104,21 @@ namespace ApiCore_facebook
             // Configure swagger
             services.AddSwaggerGen(options =>
             {
+
+                
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                    In = "header",
+                    Name = "Authorization",
+                    Type = "apiKey"
+                });
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", new string[] { } }
+                });
+
+
                 // Specify two versions 
                 options.SwaggerDoc("v1",
                     new Info()
@@ -110,7 +127,19 @@ namespace ApiCore_facebook
                         Title = "Version 1",
                         Description = "v1 API Description" +
                         "</br> ka k a ",
-                        //TermsOfService = "Terms of usage v1"
+
+                        //TermsOfService = "Knock yourself out",
+                        Contact = new Contact
+                        {
+                            Name = "Nguyễn văn bằng",
+                            Email = "bangnguyen794@gmail.com"
+                        },
+                        License = new License
+                        {
+                            Name = "Apache 2.0",
+                            Url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+                        }
+                      
                     });
 
                 options.SwaggerDoc("v2",
@@ -227,14 +256,26 @@ namespace ApiCore_facebook
            
             //Add thư viện Swagger
             app.UseStaticFiles();
-            app.UseSwagger();
+            
             app.UseSwaggerUI(c =>
             {
+                c.DefaultModelExpandDepth(1);
+                //c.DefaultModelRendering(ModelRendering.Model); //select option model
+                //c.DefaultModelsExpandDepth(1);
+                c.DisplayRequestDuration();//hiển thị Thời gian khi reqquest thành công
+                //c.DisplayOperationId(); // Lấy ra danh sách lớp bên trong hàm
+                 c.ShowExtensions();
+                c.EnableValidator();
+                c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head);
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"Version 1");
                 c.SwaggerEndpoint($"/swagger/v3/swagger.json", $"v3");
                 c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
                 c.InjectStylesheet("/swagger/ui/css_custom.css");
                 c.InjectJavascript("/swagger/ui/js_custom.js");
+            });
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Host = httpReq.Host.Value);
             });
             //Xác thự token trên app
             app.UseAuthentication();
