@@ -61,7 +61,6 @@ namespace ApiCore_facebook.Controllers.v1
             {
                 
                 var query = await ctx.pro_getUsser.AsNoTracking().FromSql($"Exec [dbo].[_pro_getUsser] @id_user = {pram.id_user},@app_id  = {pram.app_id}").Take(1).FirstOrDefaultAsync();
-        
                 var query_setting = await ctx.FbSetting.AsNoTracking().Select(s => s.Baotri).FirstOrDefaultAsync();
                 if(query!=null)
                 {
