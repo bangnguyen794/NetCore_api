@@ -15,6 +15,7 @@ namespace ApiCore_facebook.ClassController.v1
         public class From_add_message
         {   
             [Required] 
+
             public string id_message { get; set; }
             [Required]
             public string id_page { get; set; }

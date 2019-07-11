@@ -48,8 +48,9 @@ namespace ApiCore_facebook.Models
         public virtual DbSet<FbUserToken> FbUserToken { get; set; }
         public virtual DbSet<FbWebsite> FbWebsite { get; set; }
 
+        public virtual DbSet<pro_getUsser> pro_getUsser { get; set; }
 
-
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

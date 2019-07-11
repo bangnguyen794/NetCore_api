@@ -75,7 +75,7 @@
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
             <summary>
-            ( Thêm - cập nhập tin nhắn publish online )
+            ( Thêm - cập nhập tin nhắn)
             </summary>
             <param name="body">Giá trị truyền vào</param>
             <returns></returns>
@@ -84,53 +84,12 @@
             <response code="400">Product has missing/invalid values</response>
             <response code="500">Oops! Can't create your product right now</response>
         </member>
-        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.id_page">
+        <member name="M:ApiCore_facebook.Controllers.v1.FbUserToken.GetUser(ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser)">
             <summary>
-            Bắt buộc
+            Lấy thông tin user
             </summary>
-        </member>
-        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.key">
-            <summary>
-            Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
-            </summary>
-        </member>
-        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.take">
-            <summary>
-            Số item tải lên trong một trang
-            </summary>
-        </member>
-        <member name="P:ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2.page_index">
-            <summary>
-            Trang 1 2 3 ...
-            </summary>
-        </member>
-        <member name="M:ApiCore_facebook.Controllers.v1.ValuesController.Lis_message_null(ApiCore_facebook.Controllers.v1.ValuesController.from_body_message2)">
-             <summary>
-             (Lấy danh sách tin nhắn) v1
-             </summary>
-             <remarks>
-             Ví dụ:
-            
-                 POST /Todo
-                 {
-                    "id": 1,
-                    "name": "Item1",
-                    "isComplete": true
-                 }
-            
-             </remarks>
-             /// <returns>Oke</returns>
-             <response code="201">Trả về mục cừa khởi tạo</response>
-             <response code="400">Nếu trã về rỗng
-             <code>
-              POST /Todo
-                 {
-                    "id": 1,
-                    "name": "Item1",
-                    "isComplete": true
-                 }
-             </code>
-             </response>    
+            <param name="pram"></param>
+            <returns></returns>
         </member>
         <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.id_page">
             <summary>

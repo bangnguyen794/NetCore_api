@@ -41,7 +41,7 @@ namespace ApiCore_facebook.Controllers.v1
         }
         #endregion
         /// <summary>
-        /// ( Thêm - cập nhập tin nhắn publish online )
+        /// ( Thêm - cập nhập tin nhắn)
         /// </summary>
         /// <param name="body">Giá trị truyền vào</param>
         /// <returns></returns>
@@ -54,15 +54,14 @@ namespace ApiCore_facebook.Controllers.v1
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         [ProducesResponseType(500)]
-        [ApiExplorerSettings(GroupName = "post")]
+        
         public async Task<ActionResult> Save_change_message([FromBody]  CL_FbMessages.From_add_message body)
         {
             try
             {
                 await ctx.Database.ExecuteSqlCommandAsync($"exec dbo.Pro_UpdateInsertMessages @id_message={body.id_message}, @id_page={ body.id_page}, @id_user={ body.id_user}, @message={ body.message}, @name_user={ body.name_user}, @views={ body.views}, @views_update={ body.views_update}, @update_time={ body.update_time}, @type={ body.type}, @phone={body.phone}");
-
-                _logger.LogInformation(LoggingEvents.InsertItem, "Add mesage :{ body}", body);
-                //var query= await ctx.FbMessages.FromSql($"exec seach_name_fb @name =N{body.name_user}").ToListAsync();
+                //_logger.LogInformation(LoggingEvents.InsertItem, "Add mesage :{ body}", body);
+                //var query= await ctx.FbMessages.FromSql($"exec seach_name_fb @name ={body.name_user}").ToListAsync();
                 //_logger.LogWarning(LoggingEvents.GetItemNotFound, "GetById({ID}) NOT FOUND", id);
                 //return NotFound();
                 return Ok("success");
@@ -75,18 +74,11 @@ namespace ApiCore_facebook.Controllers.v1
 
             }
         }
-
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
-        }
-        [ApiExplorerSettings(GroupName = "post")]
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         // PUT api/<controller>/5
@@ -94,7 +86,7 @@ namespace ApiCore_facebook.Controllers.v1
         public void Put(int id, [FromBody]string value)
         {
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [ApiExplorerSettings(GroupName = "delete",IgnoreApi =true)]
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
