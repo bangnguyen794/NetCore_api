@@ -12,12 +12,16 @@ using System.Threading.Tasks;
 
 namespace ApiCore_facebook.Library
 {
+    /// <summary>
+    /// Trả về user kèm token 
+    /// </summary>
     public interface IUserService
     {
         User Authenticate(string id_user);
         //IEnumerable<User> GetAll();
         //User GetById(int id);
     }
+   
     public class UserService : IUserService
     {
         db_facebook_vmContext XLDL = new db_facebook_vmContext();
@@ -56,7 +60,7 @@ namespace ApiCore_facebook.Library
                     new Claim(ClaimTypes.Name, user.Fullname.ToString()),
                     new Claim(ClaimTypes.Role, user.Role)
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

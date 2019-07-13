@@ -47,7 +47,7 @@ namespace ApiCore_facebook.Models
         public virtual DbSet<FbTinQc> FbTinQc { get; set; }
         public virtual DbSet<FbUserToken> FbUserToken { get; set; }
         public virtual DbSet<FbWebsite> FbWebsite { get; set; }
-
+        public virtual DbSet<FBFanpage> FBFanpage { get; set; }
         public virtual DbSet<pro_getUsser> pro_getUsser { get; set; }
 
         
@@ -1761,7 +1761,60 @@ namespace ApiCore_facebook.Models
                     .IsUnicode(false);
             });
 
-           
+            //modelBuilder.Entity<FBFanpage>(entity =>
+            //{
+            //    entity.ToTable("FB_Fanpage");
+
+            //    entity.Property(e => e.id).HasColumnName("id");
+
+            //    entity.Property(e => e.active)
+            //        .HasColumnName("api_key")
+            //        .HasMaxLength(250)
+            //        .IsUnicode(false);
+
+            //    entity.Property(e => e.GioihanGui)
+            //        .HasColumnName("gioihan_gui")
+            //        .HasDefaultValueSql("((0))");
+
+            //    entity.Property(e => e.KhoaGhichu)
+            //        .HasColumnName("khoa_ghichu")
+            //        .HasDefaultValueSql("((0))");
+
+            //    entity.Property(e => e.Link)
+            //        .HasColumnName("link")
+            //        .HasMaxLength(150)
+            //        .IsUnicode(false);
+
+            //    entity.Property(e => e.Ngaytao)
+            //        .HasColumnName("ngaytao")
+            //        .HasColumnType("datetime")
+            //        .HasDefaultValueSql("(getdate())");
+
+            //    entity.Property(e => e.Nguoitao)
+            //        .HasMaxLength(50)
+            //        .IsUnicode(false);
+
+            //    entity.Property(e => e.NoPaste)
+            //        .HasColumnName("no_paste")
+            //        .HasDefaultValueSql("((0))");
+
+            //    entity.Property(e => e.SenMailThongke)
+            //        .HasColumnName("sen_mail_thongke")
+            //        .HasDefaultValueSql("((0))");
+
+            //    entity.Property(e => e.Ten)
+            //        .HasColumnName("ten")
+            //        .HasMaxLength(50);
+
+            //    entity.Property(e => e.Trangthai)
+            //        .HasColumnName("trangthai")
+            //        .HasDefaultValueSql("((1))");
+
+            //    entity.Property(e => e.UrlImg)
+            //        .HasColumnName("url_img")
+            //        .HasMaxLength(100)
+            //        .IsUnicode(false);
+            //});
         }
     }
 }

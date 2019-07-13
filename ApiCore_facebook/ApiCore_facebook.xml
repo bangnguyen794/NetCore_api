@@ -83,10 +83,24 @@
              </code>
              </response>    
         </member>
+        <member name="M:ApiCore_facebook.Controllers.SettingController.GetSetting(ApiCore_facebook.Controllers.SettingController.BodyGetSetting)">
+            <summary>
+            Lấy ra cấu hình bảo trì, check xem tải khoản được add full quyền không
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
         <member name="T:ApiCore_facebook.Controllers.UsersController">
             <summary>
             Login user token
             </summary>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.UsersController.Authenticate(ApiCore_facebook.Library.User)">
+            <summary>
+            Đang nhaaoj xác thực facebook
+            </summary>
+            <param name="userParam"></param>
+            <returns></returns>
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
             <summary>
@@ -158,6 +172,11 @@
         <member name="T:ApiCore_facebook.Library.httpClientCall">
             <summary>
             Thư viện gọi api HttpClient -get - post - put - delete;
+            </summary>
+        </member>
+        <member name="T:ApiCore_facebook.Library.IUserService">
+            <summary>
+            Trả về user kèm token 
             </summary>
         </member>
         <member name="M:ApiCore_facebook.Program.CreateWebHostBuilder(System.String[])">

@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiCore_facebook.Controllers
 {
-
+    
     [Authorize]
     [ApiVersionNeutral]
     [Route("api/[controller]")]
@@ -52,7 +52,11 @@ namespace ApiCore_facebook.Controllers
             public string token { get; set; }
 
         }
-        
+        /// <summary>
+        /// Lấy ra cấu hình bảo trì, check xem tải khoản được add full quyền không
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         // GET: api/<controller>
         [Route("GetSetting"), HttpPost]
         [AllowAnonymous]
@@ -68,7 +72,7 @@ namespace ApiCore_facebook.Controllers
                     {
                         query = await XLDL.FbSetting.AsNoTracking().Select(s => new { s.Baotri, s.FullQuyen }).Take(1).FirstOrDefaultAsync();
                         var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromHours(365));
+                        .SetSlidingExpiration(TimeSpan.FromDays(365));
                         _cache.Set(keyCache, query, cacheEntryOptions);
                         return Ok(query);
                     }

@@ -48,9 +48,14 @@ namespace ApiCore_facebook.Controllers
             ConsoleError = bool.Parse(configuration.GetSection("ConsoleError").Value);
         }
 
+        /// <summary>
+        /// Đang nhaaoj xác thực facebook
+        /// </summary>
+        /// <param name="userParam"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("authenticate"), HttpPost]
-        [ResponseCache(Duration =30, VaryByHeader = "loginusertoken")]
+        [ResponseCache(Duration = 86400, VaryByHeader = "authenticate_login")]
         public async Task<IActionResult>  Authenticate([FromBody]User userParam)
         {
             try

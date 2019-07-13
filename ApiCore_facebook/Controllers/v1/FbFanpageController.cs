@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiCore_facebook.ClassController.log;
 using ApiCore_facebook.ClassController.v1;
+using ApiCore_facebook.Library;
 using ApiCore_facebook.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,70 +20,85 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiCore_facebook.Controllers.v1
 {
-    
     [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [EnableCors("AllowOrigin")]
-    public class FbUserToken : Controller
+    public class FbFanpageController : Controller
     {
-        db_facebook_vmContext ctx = new db_facebook_vmContext();
+        db_facebook_vmContext XLDL = new db_facebook_vmContext();
         private IConfiguration configuration;
         private bool ConsoleError = false;
         #region Setting log 
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
-        public FbUserToken(ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig)
+        public FbFanpageController(ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig)
         {
             _logRepository = logRepository;
-            _logger = logger.CreateLogger("FbUserToken.Controllers.FbUserToken");
+            _logger = logger.CreateLogger("ApiCore_facebook.Controllers.FbFanpage");
             configuration = iconfig; //Lấy ra value file appseting.json
             ConsoleError = bool.Parse(configuration.GetSection("ConsoleError").Value);
         }
         #endregion
-        
-        /// <summary>
-        /// Lấy thông tin user
-        /// </summary>
-        /// <param name="pram"></param>
-        /// <returns></returns>
-        // GET api/<controller>/5 string:alpha
-        /// <response code="404">Trả về lỗi ngoại lệ</response>
-        
-        [Route("GetUser"),HttpGet]
+
+
+        [Route("Check_active_page"), HttpGet]
         [ApiExplorerSettings(GroupName = "get")]
         [ProducesResponseType(typeof(pro_getUsser), 200)]
         [ProducesResponseType(404)]
         [ResponseCache(Duration = 86400)]
-        public async Task<ActionResult> GetUser( [FromQuery]  Form_getUser.In_getUser pram)
+        public async Task<ActionResult> Check_active_page([FromQuery]  Form_FbFanpage.In_check_active_page pram)
         {
             try
             {
-                var query = await ctx.pro_getUsser.AsNoTracking().FromSql($"Exec [dbo].[_pro_getUsser] @id_user = {pram.id_user},@app_id  = {pram.app_id}").Take(1).FirstOrDefaultAsync();
-                //var query_setting = await ctx.FbSetting.AsNoTracking().Select(s => s.Baotri).FirstOrDefaultAsync();
-                _logger.LogInformation(LoggingEvents.GetItem, "Get user (_pro_getUsser)", pram);
-                if (query != null) return Ok(query);
-                return NoContent();//400
+                var query_user_token = await XLDL.FbPageDetail.AsNoTracking().Select(x=> new {x.Quyen, x.IdUser, x.IdPage }).FirstOrDefaultAsync(x => x.IdUser == pram.id_user && x.IdPage == pram.id_page);
+
+                //if(query_user_token!=null&& (XLDL.FBFanpage.AsNoTracking().Any(x=>x.id== pram.id_page && x.su)))
+                
+               
+                //_logger.LogInformation(LoggingEvents.GetItem, "Get user (_pro_getUsser)", pram);
+                //if (query != null) return Ok(query);
+                return  NoContent();//400
 
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(LoggingEvents.GetItemNotFound, ex,"");
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, "");
                 if (ConsoleError) return NotFound(ex);
                 return NotFound("Lỗi ngoại lệ");//401
             }
-           
-        }
-        
 
-        [ApiExplorerSettings(GroupName ="pub", IgnoreApi =true)]
+        }
+
+
+
+        // GET: api/<controller>
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/<controller>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<controller>
+        [HttpPost]
+        public void Post([FromBody]string value)
+        {
+        }
+
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
-        [ApiExplorerSettings(GroupName = "delete", IgnoreApi = true)]
+
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
