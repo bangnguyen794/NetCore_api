@@ -4,6 +4,11 @@
         <name>ApiCore_facebook</name>
     </assembly>
     <members>
+        <member name="T:ApiCore_facebook.ClassController.log.LoggingEvents">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message">
             <summary>
             Body lưu tin nhắn
@@ -18,6 +23,11 @@
         <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message.type">
             <summary>
              ms (Tin nhắn) - cmt (Bình luận)
+            </summary>
+        </member>
+        <member name="T:ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser">
+            <summary>
+            pram lấy user
             </summary>
         </member>
         <member name="F:ApiCore_facebook.Controllers.MessageController._cache">
@@ -73,6 +83,11 @@
              </code>
              </response>    
         </member>
+        <member name="T:ApiCore_facebook.Controllers.UsersController">
+            <summary>
+            Login user token
+            </summary>
+        </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
             <summary>
             ( Thêm - cập nhập tin nhắn)
@@ -85,11 +100,7 @@
             <response code="500">Oops! Can't create your product right now</response>
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbUserToken.GetUser(ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser)">
-            <summary>
-            Lấy thông tin user
-            </summary>
-            <param name="pram"></param>
-            <returns></returns>
+            <response code="404">Trả về lỗi ngoại lệ</response>
         </member>
         <member name="P:ApiCore_facebook.Controllers.v2.ValuesController.from_body_message2.id_page">
             <summary>
@@ -144,84 +155,10 @@
             Thư viện cung cấp nén
             </summary>
         </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.LoadStoredProc(Microsoft.EntityFrameworkCore.DbContext,System.String,System.Boolean,System.Int16)">
+        <member name="T:ApiCore_facebook.Library.httpClientCall">
             <summary>
-            Creates an initial DbCommand object based on a stored procedure name
+            Thư viện gọi api HttpClient -get - post - put - delete;
             </summary>
-            <param name="context">target database context</param>
-            <param name="storedProcName">target procedure name</param>
-            <param name="prependDefaultSchema">Prepend the default schema name to <paramref name="storedProcName"/> if explicitly defined in <paramref name="context"/></param>
-            <param name="commandTimeout">Command timeout in seconds. Default is 30.</param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.WithSqlParam(System.Data.Common.DbCommand,System.String,System.Object,System.Action{System.Data.Common.DbParameter})">
-            <summary>
-            Creates a DbParameter object and adds it to a DbCommand
-            </summary>
-            <param name="cmd"></param>
-            <param name="paramName"></param>
-            <param name="paramValue"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.WithSqlParam(System.Data.Common.DbCommand,System.String,System.Action{System.Data.Common.DbParameter})">
-            <summary>
-            Creates a DbParameter object and adds it to a DbCommand
-            </summary>
-            <param name="cmd"></param>
-            <param name="paramName"></param>
-            <param name="paramValue"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.WithSqlParam(System.Data.Common.DbCommand,System.String,System.Data.SqlClient.SqlParameter)">
-            <summary>
-            Creates a DbParameter object based on the SqlParameter and adds it to a DbCommand.
-            This enabled the ability to provide custom types for SQL-parameters.
-            </summary>
-            <param name="cmd"></param>
-            <param name="paramName"></param>
-            <param name="paramValue"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:ApiCore_facebook.Models.EFExtensions.SprocResults.MapToList``1(System.Data.Common.DbDataReader)" -->
-        <member name="M:ApiCore_facebook.Models.EFExtensions.SprocResults.MapToValue``1(System.Data.Common.DbDataReader)">
-             <summary>
-            Attempts to read the first value of the first row of the resultset.
-             </summary>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.ExecuteStoredProc(System.Data.Common.DbCommand,System.Action{ApiCore_facebook.Models.EFExtensions.SprocResults},System.Data.CommandBehavior,System.Boolean)">
-            <summary>
-            Executes a DbDataReader and returns a list of mapped column values to the properties of <typeparamref name="T"/>
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="command"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.ExecuteStoredProcAsync(System.Data.Common.DbCommand,System.Action{ApiCore_facebook.Models.EFExtensions.SprocResults},System.Data.CommandBehavior,System.Threading.CancellationToken,System.Boolean)">
-            <summary>
-            Executes a DbDataReader asynchronously and returns a list of mapped column values to the properties of <typeparamref name="T"/>.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="command"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.ExecuteStoredNonQuery(System.Data.Common.DbCommand,System.Data.CommandBehavior,System.Boolean)">
-            <summary>
-            Executes a non-query.
-            </summary>
-            <param name="command"></param>
-            <param name="commandBehaviour"></param>
-            <param name="manageConnection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ApiCore_facebook.Models.EFExtensions.ExecuteStoredNonQueryAsync(System.Data.Common.DbCommand,System.Data.CommandBehavior,System.Threading.CancellationToken,System.Boolean)">
-            <summary>
-            Executes a non-query asynchronously.
-            </summary>
-            <param name="command"></param>
-            <param name="commandBehaviour"></param>
-            <param name="ct"></param>
-            <param name="manageConnection"></param>
-            <returns></returns>
         </member>
         <member name="M:ApiCore_facebook.Program.CreateWebHostBuilder(System.String[])">
             <summary>

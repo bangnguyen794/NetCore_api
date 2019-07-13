@@ -8,6 +8,9 @@ namespace ApiCore_facebook.ClassController.v1
 {
     public class Form_getUser
     {
+        /// <summary>
+        /// pram lấy user
+        /// </summary>
         public class In_getUser
         {
             [Required]

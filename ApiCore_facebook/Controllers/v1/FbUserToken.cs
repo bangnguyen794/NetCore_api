@@ -52,26 +52,27 @@ namespace ApiCore_facebook.Controllers.v1
         /// <param name="pram"></param>
         /// <returns></returns>
         // GET api/<controller>/5 string:alpha
+        /// <response code="404">Trả về lỗi ngoại lệ</response>
+
         [Route("GetUser"),HttpGet]
         [AllowAnonymous]// Bỏ qua xác thực token
         [ApiExplorerSettings(GroupName = "get")]
+        [ProducesResponseType(typeof(pro_getUsser), 200)]
+        [ProducesResponseType(404)]
+        [ResponseCache(Duration =1000)]
         public async Task<ActionResult> GetUser( [FromQuery]  Form_getUser.In_getUser pram)
         {
             try
             {
-                
                 var query = await ctx.pro_getUsser.AsNoTracking().FromSql($"Exec [dbo].[_pro_getUsser] @id_user = {pram.id_user},@app_id  = {pram.app_id}").Take(1).FirstOrDefaultAsync();
-                var query_setting = await ctx.FbSetting.AsNoTracking().Select(s => s.Baotri).FirstOrDefaultAsync();
-                if(query!=null)
-                {
-                    query.baotri = query_setting.Value;
-                }
+                //var query_setting = await ctx.FbSetting.AsNoTracking().Select(s => s.Baotri).FirstOrDefaultAsync();
                 _logger.LogInformation(LoggingEvents.GetItem, "Get user (_pro_getUsser)", pram);
-                return Ok(query);
+                if (query != null) return Ok(query);
+                return NoContent();//400
+
             }
             catch (Exception ex)
             {
-                
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, ex,"");
                 if (ConsoleError) return NotFound(ex);
                 return NotFound("Lỗi ngoại lệ");//401

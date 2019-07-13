@@ -61,8 +61,9 @@ namespace ApiCore_facebook
         /// <returns></returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-               .ConfigureLogging(logging =>
+               .ConfigureLogging((logging) =>
                 {
+                    
                     logging.AddEventSourceLogger();
                     logging.AddConsole();
                     logging.AddDebug();

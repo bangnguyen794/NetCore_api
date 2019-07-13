@@ -33,7 +33,7 @@ namespace ApiCore_facebook.Models
         public bool? tim_sdt { get; set; }
         public bool? goptrang { get; set; }
         public bool? tim_kh { get; set; }
-        public bool? baotri { get; set; }
+       
 
     }
 }
