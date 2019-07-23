@@ -27,7 +27,7 @@ namespace ApiCore_facebook.Controllers.v1
     [EnableCors("AllowOrigin")]
     public class FbFanpageController : Controller
     {
-        db_facebook_vmContext XLDL = new db_facebook_vmContext();
+        db_facebookContext XLDL = new db_facebookContext();
         private IConfiguration configuration;
         private bool ConsoleError = false;
         #region Setting log 
@@ -45,21 +45,46 @@ namespace ApiCore_facebook.Controllers.v1
 
         [Route("Check_active_page"), HttpGet]
         [ApiExplorerSettings(GroupName = "get")]
-        [ProducesResponseType(typeof(pro_getUsser), 200)]
-        [ProducesResponseType(404)]
+        //[ProducesResponseType(typeof(pro_getUsser), 200)]
+        //[ProducesResponseType(404)]
         [ResponseCache(Duration = 86400)]
         public async Task<ActionResult> Check_active_page([FromQuery]  Form_FbFanpage.In_check_active_page pram)
         {
             try
             {
-                var query_user_token = await XLDL.FbPageDetail.AsNoTracking().Select(x=> new {x.Quyen, x.IdUser, x.IdPage }).FirstOrDefaultAsync(x => x.IdUser == pram.id_user && x.IdPage == pram.id_page);
+                List<object> result = new List<object>();
+                var query_user_token = await XLDL.FbPageDetail.AsNoTracking().Select(x => new { x.Quyen, x.IdUser, x.IdPage }).FirstOrDefaultAsync(x => x.IdUser == pram.IdUser && x.IdPage == pram.IdPage);
+                var check_page = await XLDL.FbFanpage.AsNoTracking().AnyAsync(x => x.Id == pram.IdPage && x.SubscribedApps == true && x.AccessToken != "");
+                if (query_user_token != null && check_page)
+                {
+                    string _quyen = query_user_token.Quyen.ToString();
+                    if (_quyen.Contains("MANAGE"))
+                    {
+                        _quyen = "admin";
+                    }
+                    else
+                    {
+                        _quyen = "employee";
+                    }
 
-                //if(query_user_token!=null&& (XLDL.FBFanpage.AsNoTracking().Any(x=>x.id== pram.id_page && x.su)))
-                
-               
+                    result.Add(new
+                    {
+                        success = true,
+                        quyen = _quyen,
+                    });
+
+                }
+                else
+                {
+                    result.Add(new
+                    {
+                        success = false
+                    });
+                }
                 //_logger.LogInformation(LoggingEvents.GetItem, "Get user (_pro_getUsser)", pram);
                 //if (query != null) return Ok(query);
-                return  NoContent();//400
+
+                return Ok(result.FirstOrDefault());
 
             }
             catch (Exception ex)

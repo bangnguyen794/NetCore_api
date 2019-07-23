@@ -51,7 +51,7 @@ namespace ApiCore_facebook.Controllers.v1
         [ApiExplorerSettings(GroupName = "get")]
         [ProducesResponseType(typeof(pro_getUsser), 200)]
         [ProducesResponseType(404)]
-        [ResponseCache(Duration = 86400)]
+        //[ResponseCache(Duration = 86400)]
         public async Task<ActionResult> GetUser( [FromQuery]  Form_getUser.In_getUser pram)
         {
             try
@@ -71,8 +71,6 @@ namespace ApiCore_facebook.Controllers.v1
             }
            
         }
-        
-
         [ApiExplorerSettings(GroupName ="pub", IgnoreApi =true)]
         // PUT api/<controller>/5
         [HttpPut("{id}")]

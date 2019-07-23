@@ -12,11 +12,11 @@ namespace ApiCore_facebook.ClassController.v1
         {
 
             [Required]
-            public string id_user { get; set; }
+            public string IdUser { get; set; }
             [Required]
-            public string id_page { get; set; }
+            public string IdPage { get; set; }
             [Required]
-            public string client_id { get; set; }
+            public string AppId { get; set; }
         }
     }
 }

@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiCore_facebook.Models
 {
-    public class FBFanpage
+    public partial class FbFanpage
     {
-        public string id { get; set; }
-        public bool? active { get; set; }
-        public string name { get; set; }
-        public DateTime? syn_time { get; set; }
-        public DateTime? active_time { get; set; }
-        public string active_by { get; set; }
-        public string active_name_by { get; set; }
-        public string banefit { get; set; }
-        public bool? subscribed_apps { get; set; }
-        public string access_token { get; set; }
-        public bool? hide_cmt { get; set; }
-        public bool? like_cmt { get; set; }
-        public bool? sync { get; set; }
-        public string account_acctive { get; set; }
-        public DateTime? ngay_hethan { get; set; }
-        public string app_id { get; set; }
+        public string Id { get; set; }
+        public bool? Active { get; set; }
+        public string Name { get; set; }
+        public DateTime? SynTime { get; set; }
+        public DateTime? ActiveTime { get; set; }
+        public string ActiveBy { get; set; }
+        public string ActiveNameBy { get; set; }
+        public string Banefit { get; set; }
+        public bool? SubscribedApps { get; set; }
+        public string AccessToken { get; set; }
+        public bool? HideCmt { get; set; }
+        public bool? LikeCmt { get; set; }
+        public bool? Sync { get; set; }
+        public string AccountAcctive { get; set; }
+        public DateTime? NgayHethan { get; set; }
+        public string AppId { get; set; }
     }
 }

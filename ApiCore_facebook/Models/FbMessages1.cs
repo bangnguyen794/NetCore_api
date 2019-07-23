@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiCore_facebook.Models
 {
-    public partial class FbMessages
+    public partial class FbMessages1
     {
         public int I { get; set; }
         public string Id { get; set; }

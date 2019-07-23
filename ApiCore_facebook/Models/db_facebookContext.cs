@@ -6,80 +6,120 @@ using Microsoft.Extensions.Logging.Console;
 
 namespace ApiCore_facebook.Models
 {
-    public partial class db_facebook_vmContext : DbContext
+    public partial class db_facebookContext : DbContext
     {
-        public db_facebook_vmContext()
+        public db_facebookContext()
         {
         }
         public static readonly ILoggerFactory loggerFactory = new LoggerFactory(new[] {
               new ConsoleLoggerProvider((_, __) => true, true)
         });
-        public db_facebook_vmContext(DbContextOptions<db_facebook_vmContext> options)
+        public db_facebookContext(DbContextOptions<db_facebookContext> options)
             : base(options)
         {
         }
-       
 
-        public virtual DbSet<ExcludedQueries> ExcludedQueries { get; set; }
+        public virtual DbSet<AdminAccount> AdminAccount { get; set; }
         public virtual DbSet<FbAccountQuyen> FbAccountQuyen { get; set; }
+        public virtual DbSet<FbActiveUser> FbActiveUser { get; set; }
         public virtual DbSet<FbBaoxau> FbBaoxau { get; set; }
         public virtual DbSet<FbBlocks> FbBlocks { get; set; }
         public virtual DbSet<FbBotKichban> FbBotKichban { get; set; }
         public virtual DbSet<FbCauhinhChucnang> FbCauhinhChucnang { get; set; }
         public virtual DbSet<FbChitietGiaohang> FbChitietGiaohang { get; set; }
         public virtual DbSet<FbChitietTinQc> FbChitietTinQc { get; set; }
+        public virtual DbSet<FbDongbo> FbDongbo { get; set; }
         public virtual DbSet<FbDonhang> FbDonhang { get; set; }
         public virtual DbSet<FbDonhangChitiet> FbDonhangChitiet { get; set; }
         public virtual DbSet<FbDonviVanchuyen> FbDonviVanchuyen { get; set; }
         public virtual DbSet<FbDonviVanchuyenChitiet> FbDonviVanchuyenChitiet { get; set; }
+        public virtual DbSet<FbFanpage> FbFanpage { get; set; }
+        public virtual DbSet<FbFanpageImages> FbFanpageImages { get; set; }
+        public virtual DbSet<FbFanpageNote> FbFanpageNote { get; set; }
         public virtual DbSet<FbGhichu> FbGhichu { get; set; }
         public virtual DbSet<FbGoicuoc> FbGoicuoc { get; set; }
         public virtual DbSet<FbGoicuocChitiet> FbGoicuocChitiet { get; set; }
+        public virtual DbSet<FbGoicuocChitiet2> FbGoicuocChitiet2 { get; set; }
         public virtual DbSet<FbGoicuocFanpage> FbGoicuocFanpage { get; set; }
         public virtual DbSet<FbGuitinHangloat> FbGuitinHangloat { get; set; }
+        public virtual DbSet<FbHengui> FbHengui { get; set; }
+        public virtual DbSet<FbKichban> FbKichban { get; set; }
         public virtual DbSet<FbLichhen> FbLichhen { get; set; }
         public virtual DbSet<FbLichsuxem> FbLichsuxem { get; set; }
+        public virtual DbSet<FbLog> FbLog { get; set; }
+        public virtual DbSet<FbMessageDetail> FbMessageDetail { get; set; }
         public virtual DbSet<FbMessages> FbMessages { get; set; }
-        public virtual DbSet<FbMessages2> FbMessages2 { get; set; }
+        public virtual DbSet<FbMessages1> FbMessages1 { get; set; }
+        public virtual DbSet<FbMessagesChatbox> FbMessagesChatbox { get; set; }
+        public virtual DbSet<FbMessageTag> FbMessageTag { get; set; }
         public virtual DbSet<FbPageDetail> FbPageDetail { get; set; }
+        public virtual DbSet<FbPhanca> FbPhanca { get; set; }
+        public virtual DbSet<FbPhancaChitiet> FbPhancaChitiet { get; set; }
+        public virtual DbSet<FbPhancaNhom> FbPhancaNhom { get; set; }
+        public virtual DbSet<FbRolse> FbRolse { get; set; }
         public virtual DbSet<FbSanpham> FbSanpham { get; set; }
         public virtual DbSet<FbSetting> FbSetting { get; set; }
         public virtual DbSet<FbTag> FbTag { get; set; }
         public virtual DbSet<FbTagTrangthai> FbTagTrangthai { get; set; }
         public virtual DbSet<FbThongbao> FbThongbao { get; set; }
         public virtual DbSet<FbThongbaoVanchuyen> FbThongbaoVanchuyen { get; set; }
+        public virtual DbSet<FbTinhtrangDonhang> FbTinhtrangDonhang { get; set; }
         public virtual DbSet<FbTinQc> FbTinQc { get; set; }
+        public virtual DbSet<FbUser> FbUser { get; set; }
+        public virtual DbSet<FbUserBieucam> FbUserBieucam { get; set; }
         public virtual DbSet<FbUserToken> FbUserToken { get; set; }
         public virtual DbSet<FbWebsite> FbWebsite { get; set; }
-        public virtual DbSet<FbFanpage> FBFanpage { get; set; }
+        public virtual DbSet<TinhthanhQuanhuyen> TinhthanhQuanhuyen { get; set; }
         public virtual DbSet<pro_getUsser> pro_getUsser { get; set; }
         public virtual DbSet<ProListMessage> ProListMessage { get; set; }
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //Debug sql
-                //optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=45.125.239.149,1433;Initial Catalog=db_facebook_vm;Persist Security Info=False;User ID=sa;Password=BrightDR@123;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
-                //optionsBuilder.UseSqlServer("Server=45.125.239.149,1433;Initial Catalog=db_facebook_vm;Persist Security Info=False;User ID=sa;Password=BrightDR@123;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
-                optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3; MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
-
-            modelBuilder.Entity<ExcludedQueries>(entity =>
+            modelBuilder.Entity<AdminAccount>(entity =>
             {
-                entity.HasKey(e => e.QueryId);
+                entity.ToTable("admin_account");
 
-                entity.ToTable("excluded_queries", "oqs");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.QueryId)
-                    .HasColumnName("query_id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Account).HasMaxLength(100);
+
+                entity.Property(e => e.Avatar).IsUnicode(false);
+
+                entity.Property(e => e.Birthday).HasMaxLength(50);
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.Email).HasMaxLength(250);
+
+                entity.Property(e => e.Gioitinh).HasMaxLength(50);
+
+                entity.Property(e => e.Lastactive).HasColumnType("datetime");
+
+                entity.Property(e => e.Lastpage).IsUnicode(false);
+
+                entity.Property(e => e.MaCn).HasColumnName("MaCN");
+
+                entity.Property(e => e.Ngaylam).HasColumnType("date");
+
+                entity.Property(e => e.Ngaysinh).HasColumnType("date");
+
+                entity.Property(e => e.Password).HasMaxLength(100);
+
+                entity.Property(e => e.Phone).HasMaxLength(20);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TenNv).HasColumnName("TenNV");
             });
 
             modelBuilder.Entity<FbAccountQuyen>(entity =>
@@ -150,6 +190,34 @@ namespace ApiCore_facebook.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.WebConnect).HasColumnName("web_connect");
+            });
+
+            modelBuilder.Entity<FbActiveUser>(entity =>
+            {
+                entity.ToTable("FB_active_user");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Acctive).HasColumnName("acctive");
+
+                entity.Property(e => e.ActiveTime)
+                    .HasColumnName("active_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Goicuoc)
+                    .HasColumnName("goicuoc")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<FbBaoxau>(entity =>
@@ -348,6 +416,22 @@ namespace ApiCore_facebook.Models
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<FbDongbo>(entity =>
+            {
+                entity.ToTable("Fb_dongbo");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Datetime)
+                    .HasColumnName("datetime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 
@@ -645,6 +729,166 @@ namespace ApiCore_facebook.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<FbFanpage>(entity =>
+            {
+                entity.ToTable("FB_fanpage");
+
+                entity.HasIndex(e => new { e.AppId, e.Id })
+                    .HasName("none_index_apid_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.AccessToken)
+                    .HasColumnName("access_token")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AccountAcctive)
+                    .HasColumnName("account_acctive")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Active)
+                    .HasColumnName("active")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ActiveBy)
+                    .HasColumnName("active_by")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ActiveNameBy)
+                    .HasColumnName("active_name_by")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.ActiveTime)
+                    .HasColumnName("active_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.AppId)
+                    .HasColumnName("app_id")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Banefit)
+                    .HasColumnName("banefit")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.HideCmt)
+                    .HasColumnName("hide_cmt")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.LikeCmt)
+                    .HasColumnName("like_cmt")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.NgayHethan)
+                    .HasColumnName("ngay_hethan")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.SubscribedApps)
+                    .HasColumnName("subscribed_apps")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.SynTime)
+                    .HasColumnName("syn_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Sync)
+                    .HasColumnName("sync")
+                    .HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<FbFanpageImages>(entity =>
+            {
+                entity.ToTable("FB_fanpage_images");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedIdBy)
+                    .HasColumnName("created_id_by")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasColumnName("created_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Sort).HasColumnName("sort");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Tick)
+                    .HasColumnName("tick")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.WebConnect).HasColumnName("web_connect");
+            });
+
+            modelBuilder.Entity<FbFanpageNote>(entity =>
+            {
+                entity.ToTable("FB_fanpage_note");
+
+                entity.HasIndex(e => e.IdPage)
+                    .HasName("index_pageimg");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Contents).HasColumnName("contents");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasColumnName("created_time")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NameFace)
+                    .HasColumnName("name_face")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Shortcut)
+                    .HasColumnName("shortcut")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Sort).HasColumnName("sort");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Tick)
+                    .HasColumnName("tick")
+                    .HasDefaultValueSql("((0))");
+            });
+
             modelBuilder.Entity<FbGhichu>(entity =>
             {
                 entity.ToTable("FB_ghichu");
@@ -807,6 +1051,100 @@ namespace ApiCore_facebook.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<FbGoicuocChitiet2>(entity =>
+            {
+                entity.ToTable("FB_goicuoc_chitiet2");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AppId)
+                    .HasColumnName("app_id")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.GioihanGui).HasColumnName("gioihan_gui");
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MaGoicuoc)
+                    .IsRequired()
+                    .HasColumnName("ma_goicuoc")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Mienphi).HasColumnName("mienphi");
+
+                entity.Property(e => e.Nangcap).HasColumnName("nangcap");
+
+                entity.Property(e => e.NgayKetthuc)
+                    .HasColumnName("ngay_ketthuc")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.NgayKichhoat)
+                    .HasColumnName("ngay_kichhoat")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Ngaytao)
+                    .HasColumnName("ngaytao")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Nguoicapnhap)
+                    .HasColumnName("nguoicapnhap")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nguoikichhoat)
+                    .HasColumnName("nguoikichhoat")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nguoinangcap)
+                    .HasColumnName("nguoinangcap")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SenMailThongke).HasColumnName("sen_mail_thongke");
+
+                entity.Property(e => e.Sonhanvien).HasColumnName("sonhanvien");
+
+                entity.Property(e => e.SonhanvienNc).HasColumnName("sonhanvien_nc");
+
+                entity.Property(e => e.Sothang).HasColumnName("sothang");
+
+                entity.Property(e => e.SothangNc).HasColumnName("sothang_nc");
+
+                entity.Property(e => e.Sotien)
+                    .HasColumnName("sotien")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Sotrang).HasColumnName("sotrang");
+
+                entity.Property(e => e.SotrangNc).HasColumnName("sotrang_nc");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.ThoigianCapnhap)
+                    .HasColumnName("thoigian_capnhap")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ThoigianNangcap)
+                    .HasColumnName("thoigian_nangcap")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.TienNangcap)
+                    .HasColumnName("tien_nangcap")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserActive)
+                    .HasColumnName("user_active")
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<FbGoicuocFanpage>(entity =>
             {
                 entity.ToTable("FB_goicuoc_fanpage");
@@ -901,6 +1239,116 @@ namespace ApiCore_facebook.Models
                     .HasDefaultValueSql("((0))");
             });
 
+            modelBuilder.Entity<FbHengui>(entity =>
+            {
+                entity.ToTable("FB_hengui");
+
+                entity.HasIndex(e => new { e.IdPage, e.IdUser })
+                    .HasName("index_page_user");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Chinhanh).HasColumnName("chinhanh");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.DtUpdate).HasColumnName("dt_update");
+
+                entity.Property(e => e.Gio)
+                    .HasColumnName("gio")
+                    .HasColumnType("time(5)");
+
+                entity.Property(e => e.GioServer)
+                    .HasColumnName("gio_server")
+                    .HasColumnType("time(5)");
+
+                entity.Property(e => e.HuyBoi)
+                    .HasColumnName("huy_boi")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdMessage)
+                    .HasColumnName("id_message")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Ngay)
+                    .HasColumnName("ngay")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.NgayServer)
+                    .HasColumnName("ngay_server")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Noidung).HasColumnName("noidung");
+
+                entity.Property(e => e.Trangthai)
+                    .HasColumnName("trangthai")
+                    .HasDefaultValueSql("((1))");
+            });
+
+            modelBuilder.Entity<FbKichban>(entity =>
+            {
+                entity.ToTable("FB_kichban");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdNguoitao)
+                    .HasColumnName("id_nguoitao")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ListKichban)
+                    .HasColumnName("List_kichban")
+                    .HasColumnType("ntext");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Ngaytao)
+                    .HasColumnName("ngaytao")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.NguoiCapnhap)
+                    .HasColumnName("Nguoi_capnhap")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Nguoitao)
+                    .HasColumnName("nguoitao")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Nhom)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Noidung).HasColumnName("noidung");
+
+                entity.Property(e => e.Trang)
+                    .HasColumnName("trang")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Trangthai)
+                    .HasColumnName("trangthai")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.WebConnect).HasColumnName("web_connect");
+            });
+
             modelBuilder.Entity<FbLichhen>(entity =>
             {
                 entity.ToTable("Fb_lichhen");
@@ -962,14 +1410,85 @@ namespace ApiCore_facebook.Models
                     .HasMaxLength(250);
             });
 
+            modelBuilder.Entity<FbLog>(entity =>
+            {
+                entity.ToTable("FB_log");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Account)
+                    .HasColumnName("account")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasColumnName("created_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Message).HasColumnName("message");
+
+                entity.Property(e => e.NameUser)
+                    .HasColumnName("name_user")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasColumnName("status");
+            });
+
+            modelBuilder.Entity<FbMessageDetail>(entity =>
+            {
+                entity.HasKey(e => e.I);
+
+                entity.ToTable("FB_message_detail");
+
+                entity.HasIndex(e => e.IdMessage)
+                    .HasName("index_id_messages");
+
+                entity.Property(e => e.I).HasColumnName("i");
+
+                entity.Property(e => e.Category)
+                    .HasColumnName("category")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasColumnName("created_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Id)
+                    .IsRequired()
+                    .HasColumnName("id")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdMessage)
+                    .HasColumnName("id_message")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SenderIdBy)
+                    .HasColumnName("sender_id_by")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.SenderNameBy)
+                    .HasColumnName("sender_name_by")
+                    .HasMaxLength(200);
+            });
+
             modelBuilder.Entity<FbMessages>(entity =>
             {
                 entity.HasKey(e => e.I);
 
                 entity.ToTable("FB_messages");
-
-                entity.HasIndex(e => e.IdPage)
-                    .HasName("NonClusteredIndex-id_page");
 
                 entity.HasIndex(e => new { e.IdPage, e.Id })
                     .HasName("index_id_message_id_page");
@@ -1137,11 +1656,11 @@ namespace ApiCore_facebook.Models
                     .HasDefaultValueSql("((0))");
             });
 
-            modelBuilder.Entity<FbMessages2>(entity =>
+            modelBuilder.Entity<FbMessages1>(entity =>
             {
                 entity.HasKey(e => e.I);
 
-                entity.ToTable("FB_messages2");
+                entity.ToTable("FB_messages1");
 
                 entity.Property(e => e.I).HasColumnName("i");
 
@@ -1272,6 +1791,83 @@ namespace ApiCore_facebook.Models
                 entity.Property(e => e.YelledCapital).HasColumnName("yelled_capital");
             });
 
+            modelBuilder.Entity<FbMessagesChatbox>(entity =>
+            {
+                entity.HasKey(e => e.I);
+
+                entity.ToTable("Fb_messages_chatbox");
+
+                entity.HasIndex(e => new { e.IdPage, e.IdUser })
+                    .HasName("index_id_page_id_user");
+
+                entity.Property(e => e.I).HasColumnName("i");
+
+                entity.Property(e => e.AutoBot)
+                    .HasColumnName("auto_bot")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Id)
+                    .IsRequired()
+                    .HasColumnName("id")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdKichban).HasColumnName("id_kichban");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Message)
+                    .HasColumnName("message")
+                    .HasColumnType("ntext");
+
+                entity.Property(e => e.NameUser)
+                    .HasColumnName("name_user")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnName("update_time")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<FbMessageTag>(entity =>
+            {
+                entity.ToTable("FB_message_tag");
+
+                entity.HasIndex(e => new { e.IdPage, e.IdTag, e.IdMessage })
+                    .HasName("index_idpage_tag_ms");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasColumnName("created_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdMessage)
+                    .HasColumnName("id_message")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdTag).HasColumnName("id_tag");
+            });
+
             modelBuilder.Entity<FbPageDetail>(entity =>
             {
                 entity.ToTable("FB_page_detail");
@@ -1300,6 +1896,111 @@ namespace ApiCore_facebook.Models
                 entity.Property(e => e.Xoa)
                     .HasColumnName("xoa")
                     .HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<FbPhanca>(entity =>
+            {
+                entity.ToTable("Fb_phanca");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Delay).HasColumnName("delay");
+
+                entity.Property(e => e.Done).HasColumnName("done");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Start).HasColumnName("start");
+            });
+
+            modelBuilder.Entity<FbPhancaChitiet>(entity =>
+            {
+                entity.ToTable("FB_phanca_chitiet");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Macn).HasColumnName("macn");
+
+                entity.Property(e => e.Nam).HasColumnName("nam");
+
+                entity.Property(e => e.Ngay).HasColumnName("ngay");
+
+                entity.Property(e => e.PhancaChieu)
+                    .HasColumnName("phanca_chieu")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhancaSang)
+                    .HasColumnName("phanca_sang")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Thang).HasColumnName("thang");
+
+                entity.Property(e => e.Thu)
+                    .HasColumnName("thu")
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ThuVn)
+                    .HasColumnName("thu_vn")
+                    .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<FbPhancaNhom>(entity =>
+            {
+                entity.ToTable("FB_phanca_nhom");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AccountThay)
+                    .HasColumnName("account_thay")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AccountTruc)
+                    .HasColumnName("account_truc")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cachieu)
+                    .HasColumnName("cachieu")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Casang)
+                    .HasColumnName("casang")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Doica).HasColumnName("doica");
+
+                entity.Property(e => e.Tructhay).HasColumnName("tructhay");
+            });
+
+            modelBuilder.Entity<FbRolse>(entity =>
+            {
+                entity.ToTable("FB_rolse");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Rolse)
+                    .HasColumnName("rolse")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<FbSanpham>(entity =>
@@ -1406,9 +2107,6 @@ namespace ApiCore_facebook.Models
             modelBuilder.Entity<FbTag>(entity =>
             {
                 entity.ToTable("FB_tag");
-
-                entity.HasIndex(e => e.IdPage)
-                    .HasName("NonClusteredIndex-20190628-165800");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -1569,6 +2267,17 @@ namespace ApiCore_facebook.Models
                 entity.Property(e => e.TrangthaiGiaohang).HasColumnName("trangthai_giaohang");
             });
 
+            modelBuilder.Entity<FbTinhtrangDonhang>(entity =>
+            {
+                entity.ToTable("FB_tinhtrang_donhang");
+
+                entity.Property(e => e.IdDomain).HasColumnName("id_domain");
+
+                entity.Property(e => e.Ten)
+                    .HasColumnName("ten")
+                    .HasMaxLength(200);
+            });
+
             modelBuilder.Entity<FbTinQc>(entity =>
             {
                 entity.HasKey(e => e.BroadcastId);
@@ -1614,6 +2323,228 @@ namespace ApiCore_facebook.Models
                 entity.Property(e => e.Type)
                     .HasColumnName("type")
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<FbUser>(entity =>
+            {
+                entity.ToTable("FB_user");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("index_unique_id")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.IdPage, e.IdUser })
+                    .HasName("index_id_page_id_user");
+
+                entity.HasIndex(e => new { e.NameUser, e.Phone })
+                    .HasName("index_name_user_phone");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address).HasColumnName("address");
+
+                entity.Property(e => e.Baoxau)
+                    .HasColumnName("baoxau")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Block)
+                    .HasColumnName("block")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Boqua)
+                    .HasColumnName("boqua")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Cotuongtac)
+                    .HasColumnName("cotuongtac")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Damuahang)
+                    .HasColumnName("damuahang")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Email)
+                    .HasColumnName("email")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.FindPhone)
+                    .HasColumnName("find_phone")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Goi)
+                    .HasColumnName("goi")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Hoten)
+                    .HasColumnName("hoten")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Item)
+                    .HasColumnName("item")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Khongmuahang)
+                    .HasColumnName("khongmuahang")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Khongphanhoi)
+                    .HasColumnName("khongphanhoi")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Lydo)
+                    .HasColumnName("lydo")
+                    .HasColumnType("ntext");
+
+                entity.Property(e => e.NameUser)
+                    .HasColumnName("name_user")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Nguoicapnhap)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Note).HasColumnName("note");
+
+                entity.Property(e => e.Phone)
+                    .HasColumnName("phone")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneAo)
+                    .HasColumnName("phone_ao")
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneKhac)
+                    .HasColumnName("phone_khac")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ThoigianTuongtac)
+                    .HasColumnName("thoigian_tuongtac")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Thoigiangoi)
+                    .HasColumnName("thoigiangoi")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Tuongtactot)
+                    .HasColumnName("tuongtactot")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnName("update_time")
+                    .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<FbUserBieucam>(entity =>
+            {
+                entity.ToTable("FB_user_bieucam");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("index_id")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.IdPage)
+                    .HasName("index_id_page");
+
+                entity.HasIndex(e => new { e.IdPage, e.IdUser })
+                    .HasName("index_id_page_user");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address).HasColumnName("address");
+
+                entity.Property(e => e.Baoxau).HasColumnName("baoxau");
+
+                entity.Property(e => e.Block).HasColumnName("block");
+
+                entity.Property(e => e.Boqua).HasColumnName("boqua");
+
+                entity.Property(e => e.Cotuongtac).HasColumnName("cotuongtac");
+
+                entity.Property(e => e.Damuahang).HasColumnName("damuahang");
+
+                entity.Property(e => e.Email)
+                    .HasColumnName("email")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Goi).HasColumnName("goi");
+
+                entity.Property(e => e.Hoten)
+                    .HasColumnName("hoten")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.IdPage)
+                    .HasColumnName("id_page")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Item)
+                    .HasColumnName("item")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Khongphanhoi).HasColumnName("khongphanhoi");
+
+                entity.Property(e => e.Lydo)
+                    .HasColumnName("lydo")
+                    .HasColumnType("ntext");
+
+                entity.Property(e => e.NameUser)
+                    .HasColumnName("name_user")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Nguoicapnhap)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Note)
+                    .HasColumnName("note")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Phone)
+                    .HasColumnName("phone")
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneAo)
+                    .HasColumnName("phone_ao")
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ThoigianTuongtac)
+                    .HasColumnName("thoigian_tuongtac")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Thoigiangoi)
+                    .HasColumnName("thoigiangoi")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Tuongtactot).HasColumnName("tuongtactot");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnName("update_time")
+                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<FbUserToken>(entity =>
@@ -1768,90 +2699,28 @@ namespace ApiCore_facebook.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<FbFanpage>(entity =>
+            modelBuilder.Entity<TinhthanhQuanhuyen>(entity =>
             {
-                entity.ToTable("FB_fanpage");
+                entity.ToTable("Tinhthanh_quanhuyen");
 
-                entity.HasIndex(e => new { e.AppId, e.Id })
-                    .HasName("none_index_apid_id");
+                entity.HasIndex(e => e.Thanhpho)
+                    .HasName("Index_thanhpho");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.AccessToken)
-                    .HasColumnName("access_token")
+                entity.Property(e => e.MaQuanhuyen)
+                    .HasColumnName("Ma_quanhuyen")
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.AccountAcctive)
-                    .HasColumnName("account_acctive")
-                    .HasMaxLength(255)
+                entity.Property(e => e.MaThanhpho)
+                    .HasColumnName("Ma_thanhpho")
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Active)
-                    .HasColumnName("active")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.Quanhuyen).HasMaxLength(50);
 
-                entity.Property(e => e.ActiveBy)
-                    .HasColumnName("active_by")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ActiveNameBy)
-                    .HasColumnName("active_name_by")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.ActiveTime)
-                    .HasColumnName("active_time")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.AppId)
-                    .HasColumnName("app_id")
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Banefit)
-                    .HasColumnName("banefit")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.HideCmt)
-                    .HasColumnName("hide_cmt")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.LikeCmt)
-                    .HasColumnName("like_cmt")
-                    .HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.NgayHethan)
-                    .HasColumnName("ngay_hethan")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.SubscribedApps)
-                    .HasColumnName("subscribed_apps")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.SynTime)
-                    .HasColumnName("syn_time")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Sync)
-                    .HasColumnName("sync")
-                    .HasDefaultValueSql("((0))");
-            });
-
-
-            modelBuilder.Entity<ProListMessage>(entity =>
-            {
-                entity.ToTable("View_list_message_new");
-                entity.HasKey(e => e.id_message);
-
+                entity.Property(e => e.Thanhpho).HasMaxLength(50);
             });
         }
     }

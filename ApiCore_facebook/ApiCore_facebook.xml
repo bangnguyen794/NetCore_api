@@ -25,6 +25,76 @@
              ms (Tin nhắn) - cmt (Bình luận)
             </summary>
         </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.PamListMessage.page_index">
+            <summary>
+            Trang số 1,2, 3...
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.PamListMessage.take">
+            <summary>
+            Số item lấy ra
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_chogui">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_chuatag">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_chuaxong">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_cophone">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_daxong">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_daxong_con">
+            <summary>
+            Default = ""
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_khongphone">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.check_ngay">
+            <summary>
+            Dafault = false
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.key">
+            <summary>
+            Giá trị phone - id, địa chỉ  ( có hoặc rỗng)
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.style_key">
+            <summary>
+            Default = "phone"
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.take">
+            <summary>
+            Số item lấy ra
+            </summary>
+        </member>
+        <member name="P:ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage.page_index">
+            <summary>
+            Trang số 1,2,3 ...
+            </summary>
+        </member>
         <member name="T:ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser">
             <summary>
             pram lấy user
@@ -112,6 +182,13 @@
             <remarks>Mô tả ghi chú!</remarks>
             <response code="400">Product has missing/invalid values</response>
             <response code="500">Oops! Can't create your product right now</response>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.ListMessage(ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessage)">
+            <summary>
+            Load Danh sách tin nhắn
+            </summary>
+            <param name="pram"></param>
+            <returns></returns>
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbUserToken.GetUser(ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser)">
             <response code="404">Trả về lỗi ngoại lệ</response>
