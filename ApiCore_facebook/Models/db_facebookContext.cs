@@ -72,12 +72,14 @@ namespace ApiCore_facebook.Models
         public virtual DbSet<TinhthanhQuanhuyen> TinhthanhQuanhuyen { get; set; }
         public virtual DbSet<pro_getUsser> pro_getUsser { get; set; }
         public virtual DbSet<ProListMessage> ProListMessage { get; set; }
+        public virtual DbSet<_pro_GetTagMs> _pro_GetTagMs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+
                 optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+                //optionsBuilder.UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 

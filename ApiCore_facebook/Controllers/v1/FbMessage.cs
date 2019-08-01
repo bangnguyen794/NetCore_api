@@ -43,7 +43,7 @@ namespace ApiCore_facebook.Controllers.v1
         }
         #endregion
         /// <summary>
-        /// ( Thêm - cập nhập tin nhắn)
+        /// ( Thêm - cập nhập tin nhắn new)
         /// </summary>
         /// <param name="body">Giá trị truyền vào</param>
         /// <returns></returns>
@@ -56,6 +56,7 @@ namespace ApiCore_facebook.Controllers.v1
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         [ProducesResponseType(500)]
+        [AllowAnonymous]
         public async Task<ActionResult> Save_change_message([FromBody]  CL_FbMessages.From_add_message body)
         {
             try
@@ -65,19 +66,42 @@ namespace ApiCore_facebook.Controllers.v1
                 //var query= await XLDL.FbMessages.FromSql($"exec seach_name_fb @name ={body.name_user}").ToListAsync();
                 //_logger.LogWarning(LoggingEvents.GetItemNotFound, "GetById({ID}) NOT FOUND", id);
                 //return NotFound();
-                return Ok("success");
+                return Ok(new { success = true, message = "Add messsage new success " });
             }
             catch (Exception ex)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, body.ToString());
                 if(ConsoleError) return NotFound(ex);
                 return NotFound("Lỗi ngoại lệ");
+            }
+        }
+        /// <summary>
+        /// ( Thêm - cập nhập tin nhắn psid)
+        /// </summary>
+        /// <param name="body">Giá trị truyền vào</param>
+        /// <returns></returns>
+        /// 
+        /// <remarks>Mô tả ghi chú!</remarks>
+        /// <response code="400">Product has missing/invalid values</response>
+        /// <response code="500">Oops! Can't create your product right now</response>
+
+        [Route("SaveChangeMessagePsid"), HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> Save_change_message_psid([FromBody]  CL_FbMessages.BodyListMessagePsid body)
+        {
+            try
+            {
+                await XLDL.Database.ExecuteSqlCommandAsync($"exec _pro_UpdateInsert_Psid_message @id={body.id}, @id_page={ body.id_page }, @id_user ={ body.id_user }, @name_user ={ body.name_user }, @update_time = { body.update_time }");
+                return Ok(new { success=true, message="Add messsage psid success "});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, body.ToString());
+                if (ConsoleError) return NotFound(ex);
+                return NotFound("Lỗi ngoại lệ");
 
             }
         }
-
-
-
         /// <summary>
         /// Load Danh sách tin nhắn
         /// </summary>
@@ -85,7 +109,7 @@ namespace ApiCore_facebook.Controllers.v1
         /// <returns></returns>
         // GET api/<controller>/5
         [Route("ListMessage"), HttpGet()]
-        [ResponseCache(Duration = 15)]
+        [ResponseCache(Duration = 10)]
         public async Task<IActionResult> ListMessage([FromQuery] CL_FbMessages.BodyListMessage pram)
         {
             try
@@ -310,7 +334,28 @@ namespace ApiCore_facebook.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Chi tiết người nhắn tin
+        /// </summary>
+        /// <param name="id_message"></param>
+        /// <returns></returns>
+        [Route("GetMsDetail/{id_message}"), HttpGet]
+        [ResponseCache(Duration = 3600)]
+        public async Task<IActionResult> GetMsDetail(string id_message)
+        {
+            try
+            {
+                var query_result = await XLDL.FbMessageDetail.AsNoTracking().Select(s => new { s.Id, s.IdMessage, s.SenderIdBy, s.SenderNameBy }).Where(w => w.IdMessage == id_message).ToListAsync();
+                return Ok(query_result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, "");
+                if (ConsoleError) return NotFound(ex);
+                return NotFound("Lỗi ngoại lệ");
 
+            }
+        }
         [ApiExplorerSettings(IgnoreApi = true)]
         // PUT api/<controller>/5
         [HttpPut("{id}")]

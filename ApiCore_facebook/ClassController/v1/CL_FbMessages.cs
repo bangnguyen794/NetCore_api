@@ -126,5 +126,19 @@ namespace ApiCore_facebook.ClassController.v1
             public int page_index { get; set; }
           
         }
+
+        public class BodyListMessagePsid
+        {
+            [Required]
+            public string id { get; set; }
+            [Required]
+            public string id_page { get; set; }
+            [Required]
+            public string id_user { get; set; }
+            [Required]
+            public string name_user { get; set; }
+            [Required]
+            public string update_time { get; set; }
+        }
     }
 }

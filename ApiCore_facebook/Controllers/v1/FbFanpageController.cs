@@ -42,7 +42,11 @@ namespace ApiCore_facebook.Controllers.v1
         }
         #endregion
 
-
+        /// <summary>
+        /// Kiểm tra page đã đã kích hoạt
+        /// </summary>
+        /// <param name="pram"></param>
+        /// <returns></returns>
         [Route("Check_active_page"), HttpGet]
         [ApiExplorerSettings(GroupName = "get")]
         //[ProducesResponseType(typeof(pro_getUsser), 200)]
@@ -96,6 +100,41 @@ namespace ApiCore_facebook.Controllers.v1
 
         }
 
+ /// <summary>
+        /// Kiểm tra page đã đã kích hoạt
+        /// </summary>
+        /// <param name="pram"></param>
+        /// <returns></returns>
+        [Route("Load_active_page"), HttpGet]
+        [ApiExplorerSettings(GroupName = "get")]
+        //[ProducesResponseType(typeof(pro_getUsser), 200)]
+        //[ProducesResponseType(404)]
+        [ResponseCache(Duration = 86400)]
+        public async Task<ActionResult> Load_active_page([FromQuery]  Form_FbFanpage.In_check_active_page pram)
+        {
+            try
+            {
+                List<object> result = new List<object>();
+                var Load_active_page =  from s in XLDL.FbPageDetail
+                                        join sa in XLDL.FbFanpage  on s.IdPage equals sa.Id 
+                                        where s.IdUser == pram.IdUser
+                                        where sa.SubscribedApps == true && sa.AccessToken != "" 
+                                        select new
+                                       {
+                                           id_page = s.IdPage,
+                                           quyen = s.Quyen.Contains("MANAGE") ? "admin" : "employee"
+                                       };
+                await Load_active_page.AsNoTracking().ToListAsync();
+                return Ok(Load_active_page);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, ex, "");
+                if (ConsoleError) return NotFound(ex);
+                return NotFound("Lỗi ngoại lệ");//401
+            }
+
+        }
 
 
         // GET: api/<controller>

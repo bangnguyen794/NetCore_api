@@ -24,7 +24,7 @@ namespace ApiCore_facebook.Library
             {
                 if (thang != thang_d)
                 {
-                    return_date = datetime.ToString("dd/MM/yyyy HH:mm");
+                    return_date = datetime.ToString("dd/MM HH:mm");
                 }
                 else if (ngay != ngay_d)
                 {
@@ -40,12 +40,12 @@ namespace ApiCore_facebook.Library
                     }
                     else
                     {
-                        return_date = datetime.ToString("dd/MM/yyyy HH:mm");
+                        return_date = datetime.ToString("dd/MM HH:mm");
                     }
                 }
                 else
                 {
-                    return_date = "Hôm nay " + datetime.ToString("HH:mm");
+                    return_date = datetime.ToString("HH:mm");
                 }
             }
             return return_date;

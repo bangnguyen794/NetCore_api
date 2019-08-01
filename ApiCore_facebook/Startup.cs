@@ -11,7 +11,9 @@ using ApiCore_facebook.Library;
 using ApiCore_facebook.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -50,8 +52,13 @@ namespace ApiCore_facebook
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder => builder.WithOrigins("http://localhost:3002", "https://vietmyapp.com", "https://fb.vietmyapp.com").AllowAnyHeader().AllowAnyMethod());
-              
+                    builder => builder.WithOrigins("https://vietmyapp.com", "https://fb.vietmyapp.com", "http://testnode.vietmyapp.com", "https://testnode.vietmyapp.com", "http://localhost:3002", "https://localhost:3002", "http://localhost:3004", "https://localhost:3004").AllowAnyHeader().AllowAnyMethod());
+                //options.AddPolicy("AllowOrigin",
+                //builder => builder.AllowAnyOrigin()
+                //.AllowAnyMethod()
+                //.AllowAnyHeader()
+                //.AllowCredentials());
+
             });
             #endregion
             //Caching từ bô nhớ server
@@ -255,7 +262,7 @@ namespace ApiCore_facebook
             }
             //Nén dữ liệu
             app.UseResponseCompression();
-            //app.UseCors(builder =>builder.WithOrigins("http://localhost:3002"));
+            app.UseCors("AllowOrigin");
            
             //Add thư viện Swagger
             app.UseStaticFiles();
@@ -287,6 +294,31 @@ namespace ApiCore_facebook
             var option = new RewriteOptions().AddRedirectToHttpsPermanent();
             option.AddRedirect("^$", "swagger");
             app.UseRewriter(option);
+
+            #region xử lý lỗi toàn cầu
+             app.UseExceptionHandler(config =>
+             {
+                 config.Run(async context =>
+                 {
+                     context.Response.StatusCode = 500;
+                     context.Response.ContentType = "application/json";
+ 
+                     var error = context.Features.Get<IExceptionHandlerFeature>();
+                     if (error != null)
+                     {
+                         var ex = error.Error;
+    
+                         await context.Response.WriteAsync(new 
+                         {
+                             StatusCode = 500,
+                             ErrorMessage = ex.Message 
+                         }.ToString()); //ToString() is overridden to Serialize object
+                     }
+                 });
+             });
+
+            #endregion
+
             app.UseMvc();
         }
     }

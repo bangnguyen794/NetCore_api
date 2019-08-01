@@ -172,9 +172,34 @@
             <param name="userParam"></param>
             <returns></returns>
         </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbFanpageController.Check_active_page(ApiCore_facebook.ClassController.v1.Form_FbFanpage.In_check_active_page)">
+            <summary>
+            Kiểm tra page đã đã kích hoạt
+            </summary>
+            <param name="pram"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbFanpageController.Load_active_page(ApiCore_facebook.ClassController.v1.Form_FbFanpage.In_check_active_page)">
+            <summary>
+            Kiểm tra page đã đã kích hoạt
+            </summary>
+            <param name="pram"></param>
+            <returns></returns>
+        </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message(ApiCore_facebook.ClassController.v1.CL_FbMessages.From_add_message)">
             <summary>
-            ( Thêm - cập nhập tin nhắn)
+            ( Thêm - cập nhập tin nhắn new)
+            </summary>
+            <param name="body">Giá trị truyền vào</param>
+            <returns></returns>
+            
+            <remarks>Mô tả ghi chú!</remarks>
+            <response code="400">Product has missing/invalid values</response>
+            <response code="500">Oops! Can't create your product right now</response>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.Save_change_message_psid(ApiCore_facebook.ClassController.v1.CL_FbMessages.BodyListMessagePsid)">
+            <summary>
+            ( Thêm - cập nhập tin nhắn psid)
             </summary>
             <param name="body">Giá trị truyền vào</param>
             <returns></returns>
@@ -188,6 +213,28 @@
             Load Danh sách tin nhắn
             </summary>
             <param name="pram"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.GetMsDetail(System.String)">
+            <summary>
+            Chi tiết người nhắn tin
+            </summary>
+            <param name="id_message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbTagController.GetTagMs(System.String,System.String)">
+            <summary>
+            Danh sách thẻ tag theo page tin nhắn
+            </summary>
+            <param name="id_page"></param>
+            <param name="id_message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbTagController.GetTagMsAll(System.String)">
+            <summary>
+            Danh sách thẻ tag theo page 
+            </summary>
+            <param name="id_page"></param>
             <returns></returns>
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbUserToken.GetUser(ApiCore_facebook.ClassController.v1.Form_getUser.In_getUser)">
