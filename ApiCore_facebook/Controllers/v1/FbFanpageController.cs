@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiCore_facebook.ClassController.log;
 using ApiCore_facebook.ClassController.v1;
-using ApiCore_facebook.Library;
+
 using ApiCore_facebook.Models;
 
 using Microsoft.AspNetCore.Authorization;
@@ -28,19 +28,46 @@ namespace ApiCore_facebook.Controllers.v1
     public class FbFanpageController : Controller
     {
         db_facebookContext XLDL = new db_facebookContext();
+        
         private IConfiguration configuration;
-        private bool ConsoleError = false;
-        #region Setting log 
+        private bool ConsoleError = false; //Trạng thái muốn thông báo chi tiết lỗi không.
+        private bool AllowPosman = false;// cho paosmand gọi dữ liêu
+        private string AllowRequest = ""; //Trang web được lấy dữ liệu..
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
-        public FbFanpageController(ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig)
+        private readonly IMemoryCache _cache;
+        public FbFanpageController(ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig, IMemoryCache memoryCache)
         {
             _logRepository = logRepository;
             _logger = logger.CreateLogger("ApiCore_facebook.Controllers.FbFanpage");
             configuration = iconfig; //Lấy ra value file appseting.json
-            ConsoleError = bool.Parse(configuration.GetSection("ConsoleError").Value);
+            AllowRequest = configuration.GetSection("AllowRequest").Value;
+            AllowPosman = bool.Parse(configuration.GetSection("AllowPosman").Value);
+            _cache = memoryCache; //Bộ nhớ đệm server
         }
-        #endregion
+        private bool Check_request()
+        {
+            bool request = false;
+            if (HttpContext.Request.Headers.ContainsKey("Origin"))
+            {
+                var link_request = HttpContext.Request.Headers["Origin"][0];
+                //Kiểm tra  trùng AllowRequest 
+                if (AllowRequest.Contains(link_request))
+                {
+                    request = true;
+                }
+                else
+                {
+                    request = false;
+                }
+            }
+            else
+            {
+                request = AllowPosman;
+
+            }
+            return request;
+        }
 
         /// <summary>
         /// Kiểm tra page đã đã kích hoạt
@@ -51,44 +78,48 @@ namespace ApiCore_facebook.Controllers.v1
         [ApiExplorerSettings(GroupName = "get")]
         //[ProducesResponseType(typeof(pro_getUsser), 200)]
         //[ProducesResponseType(404)]
-        [ResponseCache(Duration = 86400)]
+        //[ResponseCache(Duration = 86400)]
         public async Task<ActionResult> Check_active_page([FromQuery]  Form_FbFanpage.In_check_active_page pram)
         {
             try
             {
-                List<object> result = new List<object>();
-                var query_user_token = await XLDL.FbPageDetail.AsNoTracking().Select(x => new { x.Quyen, x.IdUser, x.IdPage }).FirstOrDefaultAsync(x => x.IdUser == pram.IdUser && x.IdPage == pram.IdPage);
-                var check_page = await XLDL.FbFanpage.AsNoTracking().AnyAsync(x => x.Id == pram.IdPage && x.SubscribedApps == true && x.AccessToken != "");
-                if (query_user_token != null && check_page)
+                if (Check_request())
                 {
-                    string _quyen = query_user_token.Quyen.ToString();
-                    if (_quyen.Contains("MANAGE"))
+                    
+                    List<object> result = new List<object>();
+                    var query_user_token = await XLDL.FbPageDetail.AsNoTracking().Select(x => new { x.Quyen, x.IdUser, x.IdPage }).FirstOrDefaultAsync(x => x.IdUser == pram.IdUser && x.IdPage == pram.IdPage);
+                    var check_page = await XLDL.FbFanpage.AsNoTracking().AnyAsync(x => x.Id == pram.IdPage && x.SubscribedApps == true && x.AccessToken != "");
+                    if (query_user_token != null && check_page)
                     {
-                        _quyen = "admin";
+                        string _quyen = query_user_token.Quyen.ToString();
+                        if (_quyen.Contains("MANAGE"))
+                        {
+                            _quyen = "admin";
+                        }
+                        else
+                        {
+                            _quyen = "employee";
+                        }
+
+                        result.Add(new
+                        {
+                            success = true,
+                            quyen = _quyen,
+                        });
                     }
                     else
                     {
-                        _quyen = "employee";
+                        result.Add(new
+                        {
+                            success = false
+                        });
                     }
-
-                    result.Add(new
-                    {
-                        success = true,
-                        quyen = _quyen,
-                    });
-
+                    return Ok(result.FirstOrDefault());
                 }
                 else
                 {
-                    result.Add(new
-                    {
-                        success = false
-                    });
+                    return BadRequest();//400
                 }
-                //_logger.LogInformation(LoggingEvents.GetItem, "Get user (_pro_getUsser)", pram);
-                //if (query != null) return Ok(query);
-
-                return Ok(result.FirstOrDefault());
 
             }
             catch (Exception ex)
@@ -100,8 +131,8 @@ namespace ApiCore_facebook.Controllers.v1
 
         }
 
- /// <summary>
-        /// Kiểm tra page đã đã kích hoạt
+        /// <summary>
+        /// Kiểm tra page đã đã kích hoạt chua
         /// </summary>
         /// <param name="pram"></param>
         /// <returns></returns>
@@ -109,23 +140,31 @@ namespace ApiCore_facebook.Controllers.v1
         [ApiExplorerSettings(GroupName = "get")]
         //[ProducesResponseType(typeof(pro_getUsser), 200)]
         //[ProducesResponseType(404)]
-        [ResponseCache(Duration = 86400)]
+        //[ResponseCache(Duration = 86400)]
         public async Task<ActionResult> Load_active_page([FromQuery]  Form_FbFanpage.In_check_active_page pram)
         {
             try
             {
-                List<object> result = new List<object>();
-                var Load_active_page =  from s in XLDL.FbPageDetail
-                                        join sa in XLDL.FbFanpage  on s.IdPage equals sa.Id 
-                                        where s.IdUser == pram.IdUser
-                                        where sa.SubscribedApps == true && sa.AccessToken != "" 
-                                        select new
-                                       {
-                                           id_page = s.IdPage,
-                                           quyen = s.Quyen.Contains("MANAGE") ? "admin" : "employee"
-                                       };
-                await Load_active_page.AsNoTracking().ToListAsync();
-                return Ok(Load_active_page);
+                
+                if (Check_request())
+                {
+                    List<object> result = new List<object>();
+                    var Load_active_page =  from s in XLDL.FbPageDetail
+                                            join sa in XLDL.FbFanpage  on s.IdPage equals sa.Id 
+                                            where s.IdUser == pram.IdUser
+                                            where sa.SubscribedApps == true && sa.AccessToken != "" 
+                                            select new
+                                           {
+                                               id_page = s.IdPage,
+                                               quyen = s.Quyen.Contains("MANAGE") ? "admin" : "employee"
+                                           };
+                    await Load_active_page.AsNoTracking().ToListAsync();
+                    return Ok(Load_active_page);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -133,10 +172,8 @@ namespace ApiCore_facebook.Controllers.v1
                 if (ConsoleError) return NotFound(ex);
                 return NotFound("Lỗi ngoại lệ");//401
             }
-
         }
-
-
+        
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()

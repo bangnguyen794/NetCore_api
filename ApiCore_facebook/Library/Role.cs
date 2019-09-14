@@ -8,7 +8,7 @@ namespace ApiCore_facebook.Library
     //Phân quyền
     public class Role
     {
-        public const string Admin = "Admin";
-        public const string User = "User";
+        public const string Admin = "full_admin";
+        public const string User = "user";
     }
 }

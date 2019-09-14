@@ -181,7 +181,7 @@
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbFanpageController.Load_active_page(ApiCore_facebook.ClassController.v1.Form_FbFanpage.In_check_active_page)">
             <summary>
-            Kiểm tra page đã đã kích hoạt
+            Kiểm tra page đã đã kích hoạt chua
             </summary>
             <param name="pram"></param>
             <returns></returns>
@@ -221,6 +221,23 @@
             </summary>
             <param name="id_message"></param>
             <returns></returns>
+        </member>
+        <member name="M:ApiCore_facebook.Controllers.v1.FbMessage.UpdateStatus(ApiCore_facebook.Controllers.v1.FbMessage.body_UpdateStatus)">
+             <summary>
+             Cập nhập trạng thái tin nhắn  
+             </summary>
+             <param name="body"> trả về Object</param>
+             <returns></returns>
+             <example>
+             
+                 <code>
+                 {
+              "additionalProp1": "string",
+              "additionalProp2": "string",
+              "additionalProp3": "string"
+            }
+                 </code>
+             </example>
         </member>
         <member name="M:ApiCore_facebook.Controllers.v1.FbTagController.GetTagMs(System.String,System.String)">
             <summary>

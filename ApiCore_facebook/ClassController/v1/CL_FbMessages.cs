@@ -137,8 +137,8 @@ namespace ApiCore_facebook.ClassController.v1
             public string id_user { get; set; }
             [Required]
             public string name_user { get; set; }
-            [Required]
-            public string update_time { get; set; }
+          
+         
         }
     }
 }

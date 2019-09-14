@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using ApiCore_facebook.ClassController.log;
 using ApiCore_facebook.Library;
@@ -8,6 +8,7 @@ using ApiCore_facebook.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -33,19 +34,38 @@ namespace ApiCore_facebook.Controllers
     public class UsersController : ControllerBase
     {
 
+        db_facebookContext XLDL = new db_facebookContext();
         private IUserService _userService;
         private IConfiguration configuration;
-        private bool ConsoleError = false;
-        db_facebook_vmContext XLDL = new db_facebook_vmContext();
+        private bool ConsoleError = false; //Trạng thái muốn thông báo chi tiết lỗi không.
+        private bool AllowPosman = false;// cho paosmand gọi dữ liêu
+        private string AllowRequest = ""; //Trang web được lấy dữ liệu..
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
-        public UsersController(IUserService userService, ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig)
+        private readonly IMemoryCache _cache;
+        private  object GetAuthorization()
         {
+            var accessToken = HttpContext.Request.Headers["Authorization"][0].Replace("Bearer ", "").Trim();
+            //var authenticateInfo = await HttpContext.Authentication.GetAuthenticateInfoAsync("Bearer");
+            //var  stream = authenticateInfo.Properties.Items[".Token.access_token"];
+            var handler = new JwtSecurityTokenHandler();
+            //var jsonToken = handler.ReadToken(accessToken);
+            var tokenS = handler.ReadToken(accessToken) as JwtSecurityToken;
+            return tokenS;
+        }
+        public UsersController(IUserService userService, ILogRepository logRepository, ILoggerFactory logger, IConfiguration iconfig,IMemoryCache memoryCache)
+        {
+           
             _userService = userService;
             _logRepository = logRepository;
-            _logger = logger.CreateLogger("ApiCore_facebook.Controllers.UsersController");
+            _logger = logger.CreateLogger("ApiCore_facebook.Controllers.Setting");
             configuration = iconfig; //Lấy ra value file appseting.json
-            ConsoleError = bool.Parse(configuration.GetSection("ConsoleError").Value);
+            
+            AllowRequest = configuration.GetSection("AllowRequest").Value;
+            AllowPosman = bool.Parse(configuration.GetSection("AllowPosman").Value);
+            _cache = memoryCache; //Bộ nhớ đệm server
+
+
         }
 
         /// <summary>
@@ -55,7 +75,7 @@ namespace ApiCore_facebook.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [Route("authenticate"), HttpPost]
-        [ResponseCache(Duration = 86400, VaryByHeader = "authenticate_login")]
+        //[ResponseCache(Duration = 86400, VaryByHeader = "authenticate_login")]
         public async Task<IActionResult>  Authenticate([FromBody]User userParam)
         {
             try

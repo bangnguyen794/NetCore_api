@@ -78,8 +78,8 @@ namespace ApiCore_facebook.Models
             if (!optionsBuilder.IsConfigured)
             {
 
-                optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
-                //optionsBuilder.UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+                //optionsBuilder.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging().UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=103.47.192.112;Initial Catalog=db_facebook;Persist Security Info=False;User ID=us_facebook;Password=UT*f5PPKk3;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 

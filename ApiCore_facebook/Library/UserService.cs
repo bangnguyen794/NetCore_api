@@ -24,22 +24,32 @@ namespace ApiCore_facebook.Library
    
     public class UserService : IUserService
     {
-        db_facebook_vmContext XLDL = new db_facebook_vmContext();
+        db_facebookContext XLDL = new db_facebookContext();
         private readonly AppSettings _appSettings;
         public UserService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
 
-        public User Authenticate(string id_user)
+        public  User Authenticate(string id_user)
         {
             List<User> _users = new List<User>();
-            
             var query = XLDL.FbUserToken.AsNoTracking().Where(x=>x.IdUser == id_user).Select(x=> new  {x.Id, x.IdUser,x.NameUser }).Take(1).FirstOrDefault();
+            var query_role = XLDL.FbSetting.AsNoTracking().Any(x => x.FullQuyen.Contains(id_user));
+            var query_page = XLDL.FbPageDetail.AsNoTracking().Where(x => x.IdUser==id_user).Select(s=>new { s.IdPage}).ToList();
+            string quyen = "user",str_page = "";
+            if (query_role) quyen = "full_admin";
+            if (query_page!=null)
+            {
+                foreach(var row in query_page)
+                {
+                    str_page += row.IdPage + ",";
+                }
+            }
             //// return null if user not found
             if (query!=null)
             {
-                _users.Add(new User { Id = query.Id,id_user=query.IdUser, Fullname = query.NameUser, Role = Role.User });
+                _users.Add(new User { Id = query.Id,id_user=query.IdUser, Fullname = query.NameUser, Role = quyen });
             }
             else
             {
@@ -58,7 +68,8 @@ namespace ApiCore_facebook.Library
                     new Claim(ClaimTypes.Version,"v1"),
                     new Claim(ClaimTypes.Sid, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Fullname.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.GroupSid, str_page.TrimEnd(','))
                 }),
                 Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
